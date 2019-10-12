@@ -163,9 +163,12 @@ export default {
             .shop_item_left
                 img 
                     width 65px
+                    height 65px
             .brand
                 font-size 14px
                 background #F8CC36
+                margin-right 5px
+                border-radius 2px
             .brand_title
                 width 150px;
                 font-weight bold
@@ -173,6 +176,9 @@ export default {
                 text-overflow ellipsis
                 white-space nowrap
             .shop_item_mid
+                display flex
+                flex-direction column
+                justify-content space-between
                 & div:nth-child(1)
                     display flex
                 & div:nth-child(2)
