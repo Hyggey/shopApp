@@ -43,6 +43,7 @@ export default {
             color #ffffff
             width 17%
             outline none
+            border-radius 5px
             &:active
                 opacity .6
 </style>

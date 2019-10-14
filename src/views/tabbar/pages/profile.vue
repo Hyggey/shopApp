@@ -1,7 +1,7 @@
 <template>
     <div class="profileContainer">
         <zz-headerTop title="我的"></zz-headerTop>
-        <div class="login">
+        <div class="login" @click="toLogin">
             <div class="login_main">
                 <div class="userInfo">
                     <span class="iconfont iconicontouxiang"></span>
@@ -71,6 +71,11 @@
 export default {
     data(){
         return {
+        }
+    },
+    methods:{
+        toLogin(){
+            this.$router.push('/login')
         }
     }
 }

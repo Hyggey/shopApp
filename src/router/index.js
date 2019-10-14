@@ -35,6 +35,11 @@ export default new Router({
 		{
 			path: '/',
 			redirect:'/tabbar/home'
+		},
+		{
+			path: '/login',
+			name: 'login',
+			component: () => import('@/views/loginPage/index.vue'),
 		}
 	]
 })

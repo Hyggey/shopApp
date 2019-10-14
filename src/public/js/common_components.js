@@ -6,3 +6,6 @@ Vue.component('zz-tabbar', resolve => require(['@/components/common/tabbar'], re
 
 // 头部组件
 Vue.component('zz-headerTop', resolve => require(['@/components/common/headerTop'], resolve))
+
+// 首页商品卡片组件
+Vue.component('zz-shopCard', resolve => require(['@/components/common/shop_card'], resolve))

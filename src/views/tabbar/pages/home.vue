@@ -11,11 +11,23 @@
         </zz-headerTop>
         <!-- 首页轮播区域 -->
         <div class="homeSwiper">
-            <div class="swiper_item">
-                <div v-for="(item,index) in navList" :key="index" class="goods_item">
-                    <img :src="item.src" alt="">
-                    <span>{{item.title}}</span>
-                </div> 
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide swiper_item">
+                        <div v-for="(item,index) in navList" :key="index" class="goods_item">
+                            <img :src="item.src" alt="">
+                            <span>{{item.title}}</span>
+                        </div> 
+                    </div>
+                    <div class="swiper-slide swiper_item">
+                        <div v-for="(item,index) in navList" :key="index" class="goods_item">
+                            <img :src="item.src" alt="">
+                            <span>{{item.title}}</span>
+                        </div> 
+                    </div>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
             </div>
         </div>
         <!-- 首页商家 -->
@@ -24,33 +36,14 @@
                 <span class="iconfont iconcaidan"></span>
                 <span>附近商家</span>
             </div>
-            <div class="shop_item" v-for="(item,index) in shopList" :key="index">
-                <div class="shop_item_left">
-                    <img :src="item.src" alt="">
-                </div>
-                <div class="shop_item_mid">
-                    <div>
-                        <span class="brand">品牌</span>
-                        <span class="brand_title">锄禾日当午，汗滴禾下土</span>
-                    </div>
-                    <div>
-                        <img src="" alt="">
-                        <span>月售106单</span>
-                    </div>
-                    <div>
-                        <span>￥20起送/配送费约￥5</span>
-                    </div>
-                </div>
-                <div class="shop_item-right">
-                    <span>保准赢</span>
-                    <span>蜂鸟配送</span>
-                </div>
-            </div>
+            <zz-shopCard v-for="(item,index) in shopList" :key="index" :list="item"></zz-shopCard>
         </div>
     </div>
 </template>
 
 <script>
+import Swiper from 'swiper'
+import 'swiper/css/swiper.min.css'
 export default {
     data(){
         return {
@@ -103,27 +96,41 @@ export default {
                 }
             ]
         }
+    },
+    mounted(){
+        var swiper = new Swiper('.swiper-container',{
+            loop: true,
+            autoplay:{
+                delay:3000
+            },
+            // 如果需要分页器
+            pagination: {
+                el: '.swiper-pagination',
+            },
+        })
     }
 }
 </script>
 
 <style lang="stylus" scoped>
     .homeSwiper
+    .swiper-pagination.swiper-pagination-bullets
+        bottom 5px
         .swiper_item
             width 100%
             display flex
             flex-wrap wrap
             .goods_item
-                width 25%
+                width 25%!important
                 display flex
                 flex-direction column
                 align-items center
                 img 
                     width 45px
-                    margin-bottom 8px
                 span
                     font-size 14px
                     color rgb(97,90,90)
+                    padding 5px 0 17px 0
     .shop
         .shop_header
             color rgb(97,90,90)
@@ -136,45 +143,4 @@ export default {
                 font-size 20px
                 margin-left 10px
                 margin-right 5px
-        .shop_item
-            display flex
-            justify-content space-between
-            padding 0 8px
-            margin-bottom 20px
-            .shop_item_left
-                img 
-                    width 65px
-                    height 65px
-            .brand
-                font-size 14px
-                background #F8CC36
-                margin-right 5px
-                border-radius 2px
-            .brand_title
-                width 150px;
-                font-weight bold
-                overflow hidden
-                text-overflow ellipsis
-                white-space nowrap
-            .shop_item_mid
-                display flex
-                flex-direction column
-                justify-content space-between
-                & div:nth-child(1)
-                    display flex
-                & div:nth-child(2)
-                    span
-                        font-size 10px
-                & div:nth-child(3)
-                    span
-                        font-size 10px 
-            .shop_item-right
-                display flex
-                flex-direction column
-                & span:first-child
-                    font-size 14px
-                    margin-bottom 10px
-                & span:last-child
-                    color #037C58   
-                    font-size 14px 
 </style>
