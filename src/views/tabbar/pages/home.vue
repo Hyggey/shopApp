@@ -1,15 +1,14 @@
 <template>
     <div class="homeContainer">
         <!-- 首页头部 -->
-        <header>
-            <span class="iconfont iconsousuo"></span>
-            <span class="text">昌平区北七家宏福里42大道</span>
-            <div>
+        <zz-headerTop title="昌平区北七家宏福里42大道">
+            <span class="iconfont iconsousuo" slot="left"></span>
+            <div slot="right">
                 <span>登录</span>
                 <span>|</span>
                 <span>注册</span>
             </div>
-        </header>
+        </zz-headerTop>
         <!-- 首页轮播区域 -->
         <div class="homeSwiper">
             <div class="swiper_item">
@@ -109,24 +108,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-    header
-        display flex
-        padding 0 10px
-        justify-content space-between
-        align-items center
-        height 45px
-        background #02a774
-        color #fff
-        .iconsousuo
-            font-size 22px
-        .text
-            font-size 18px
-            width 200px
-            overflow hidden
-            text-overflow ellipsis
-            white-space nowrap
-        div
-            font-size 14px
     .homeSwiper
         .swiper_item
             width 100%
