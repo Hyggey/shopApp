@@ -6,6 +6,11 @@ import router from './router'
 
 Vue.config.productionTip = false
 
+// 全局引入axios请求方法
+import axios from '@/public/js/axiosCom.js'
+
+Vue.prototype.$axios = axios.instance 
+
 // 全局引入公共组件
 import '@/public/js/common_components.js'
 

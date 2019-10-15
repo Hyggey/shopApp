@@ -48,6 +48,14 @@ export default {
             loginFlag: true
         }
     },
+    created(){
+        this.$axios({
+            method:'get',
+            url:'hello'
+        }).then(res =>{
+            console.log(res.data)
+        })
+    },
     methods:{
         
     }
