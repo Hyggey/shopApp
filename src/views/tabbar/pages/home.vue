@@ -1,7 +1,7 @@
 <template>
     <div class="homeContainer">
         <!-- 首页头部 -->
-        <zz-headerTop title="昌平区北七家宏福里42大道">
+        <zz-headerTop :title="address">
             <span class="iconfont iconsousuo" slot="left"></span>
             <div slot="right">
                 <span>登录</span>
@@ -94,7 +94,12 @@ export default {
                 {
                     src:require('../../../../static/homeImages/shop/4.jpg')
                 }
-            ]
+            ],
+            geohash:{
+                latitude: 31.83,
+                longitude: 117.25
+            },
+            address:''
         }
     },
     mounted(){
@@ -108,6 +113,29 @@ export default {
                 el: '.swiper-pagination',
             },
         })
+    },
+    created(){
+        this.getHeader()
+        this.getSwiper()
+    },
+    methods:{
+        getHeader(){
+            this.$axios({
+                method:'GET',
+                url:'/position/' + this.geohash.latitude+','+this.geohash.longitude,
+            }).then(res =>{
+                // console.log(res.data)
+                this.address = res.data.data.name
+            })
+        },
+        getSwiper(){
+            this.$axios({
+                method:'GET',
+                url:'/index_category'
+            }).then(res =>{
+                console.log(res.data)
+            })
+        }
     }
 }
 </script>
