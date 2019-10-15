@@ -50,8 +50,8 @@ export default {
     },
     created(){
         this.$axios({
-            method:'get',
-            url:'hello'
+            method:'GET',
+            url:'/index_category'
         }).then(res =>{
             console.log(res.data)
         })
