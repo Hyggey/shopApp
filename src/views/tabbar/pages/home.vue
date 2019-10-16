@@ -11,24 +11,19 @@
         </zz-headerTop>
         <!-- 首页轮播区域 -->
         <div class="homeSwiper">
-            <div class="swiper-container">
+            <div class="swiper-container" v-if="categoriesArr.length">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide swiper_item">
-                        <div v-for="(item,index) in navList" :key="index" class="goods_item">
-                            <img :src="item.src" alt="">
-                            <span>{{item.title}}</span>
-                        </div> 
-                    </div>
-                    <div class="swiper-slide swiper_item">
-                        <div v-for="(item,index) in navList" :key="index" class="goods_item">
-                            <img :src="item.src" alt="">
-                            <span>{{item.title}}</span>
+                    <div class="swiper-slide swiper_item" v-for="(categories,index) in categoriesArr" :key="index">
+                        <div v-for="(category,index) in categories" :key="index" class="goods_item">
+                            <img :src="bascImgUrl+category.image_url" alt="">
+                            <span>{{category.title}}</span>
                         </div> 
                     </div>
                 </div>
                 <!-- 如果需要分页器 -->
                 <div class="swiper-pagination"></div>
             </div>
+            <img src="../../../../static/homeImages/msite_back.svg" alt="" v-else>
         </div>
         <!-- 首页商家 -->
         <div class="shop">
@@ -36,7 +31,10 @@
                 <span class="iconfont iconcaidan"></span>
                 <span>附近商家</span>
             </div>
-            <zz-shopCard v-for="(item,index) in shopList" :key="index" :list="item"></zz-shopCard>
+            <div v-if="shopList.length">
+                <zz-shopCard v-for="(item,index) in shopList" :key="index" :list="item"></zz-shopCard>
+            </div>
+            <img src="../../../../static/homeImages/shop_back.svg" v-for="item in 6" alt="" v-else :key="item">
         </div>
     </div>
 </template>
@@ -47,6 +45,8 @@ import 'swiper/css/swiper.min.css'
 export default {
     data(){
         return {
+            bascImgUrl:'https://fuss10.elemecdn.com',
+            categoriesArr:[],
             navList:[
                 {
                     src: require('../../../../static/homeImages/nav/1.jpg'),
@@ -82,18 +82,18 @@ export default {
                 },
             ],
             shopList:[
-                {
-                    src:require('../../../../static/homeImages/shop/1.jpg')
-                },
-                {
-                    src:require('../../../../static/homeImages/shop/2.jpg')
-                },
-                {
-                    src:require('../../../../static/homeImages/shop/3.jpg')
-                },
-                {
-                    src:require('../../../../static/homeImages/shop/4.jpg')
-                }
+                // {
+                //     src:require('../../../../static/homeImages/shop/1.jpg')
+                // },
+                // {
+                //     src:require('../../../../static/homeImages/shop/2.jpg')
+                // },
+                // {
+                //     src:require('../../../../static/homeImages/shop/3.jpg')
+                // },
+                // {
+                //     src:require('../../../../static/homeImages/shop/4.jpg')
+                // }
             ],
             geohash:{
                 latitude: 31.83,
@@ -103,22 +103,15 @@ export default {
         }
     },
     mounted(){
-        var swiper = new Swiper('.swiper-container',{
-            loop: true,
-            autoplay:{
-                delay:3000
-            },
-            // 如果需要分页器
-            pagination: {
-                el: '.swiper-pagination',
-            },
-        })
+        
     },
     created(){
         this.getHeader()
         this.getSwiper()
+        this.getshopList()
     },
     methods:{
+        // 获取头部位置信息
         getHeader(){
             this.$axios({
                 method:'GET',
@@ -128,12 +121,57 @@ export default {
                 this.address = res.data.data.name
             })
         },
+        // 获取轮播图数据
         getSwiper(){
             this.$axios({
                 method:'GET',
                 url:'/index_category'
             }).then(res =>{
                 console.log(res.data)
+                // this.categoriesArr = res.data.data
+                // const arr = [];
+                let minArr = []
+                res.data.data.forEach(c =>{
+                    if(minArr.length === 8){
+                        minArr = []
+                    }
+                    if(minArr.length === 0){
+                        this.categoriesArr.push(minArr)
+                    }
+                    minArr.push(c)
+                })
+                console.log(this.categoriesArr)
+            })
+        },
+        // 获取商家列表
+        getshopList(){
+            this.$axios({
+                method:'GET',
+                // url:'/shops?latitude='+this.geohash.latitude+'&longitude='+this.geohash.longitude,
+                url:'/shops',
+                params: {
+                    latitude:this.geohash.latitud,
+                    longitude:this.geohash.longitude
+                }
+            }).then(res =>{
+                console.log(res.data)
+                this.shopList = res.data.data
+            })
+        }
+    },
+    watch:{
+        categoriesArr(value){
+            this.$nextTick(() =>{    // 一旦界面更新，立即调用（此条语句写在数据更新之后）
+                var swiper = new Swiper('.swiper-container',{
+                    loop: true,
+                    autoplay:{
+                        delay:3000
+                    },
+                    // 如果需要分页器
+                    pagination: {
+                        el: '.swiper-pagination',
+                    },
+                })
             })
         }
     }

@@ -7,21 +7,24 @@
             <div class="shop_item_mid">
                 <div>
                     <span class="brand">品牌</span>
-                    <span class="brand_title">锄禾日当午，汗滴禾下土</span>
+                    <span class="brand_title">{{list.name}}</span>
                 </div>
                 <div>
                     <img src="" alt="">
-                    <span>月售106单</span>
+                    <span>月售{{list.recent_order_num}}单</span>
                 </div>
                 <div>
-                    <span>￥20起送/配送费约￥5</span>
+                    <span>￥{{list.float_minimum_order_amount}}起送/配送费约￥{{list.float_delivery_fee}}</span>
                 </div>
             </div>
             <div class="shop_item-right">
-                <span>保准赢</span>
+                <ul>
+                    <li v-for="(item,index) in list.supports" :key="index">{{item.icon_name}}</li>
+                </ul>
                 <span>蜂鸟配送</span>
             </div>
         </div>
+        <!-- <img src="../../../static/homeImages/shop_back.svg" alt=""> -->
     </div>
 </template>
 
@@ -32,14 +35,20 @@ export default {
             default(){
                 return {
                     src:'',
-                    title:''
+                    image_path:'',
+                    name:'',
+                    title:'',
+                    recent_order_num:'',
+                    float_minimum_order_amount:'',
+                    float_delivery_fee:'',
+                    supports:[]
                 }
             }
         }
     },
     data(){
         return {
-            
+            baseImgUrl:'http://cangdu.org:8001/img/'
         }
     }
 }
@@ -81,6 +90,12 @@ export default {
         .shop_item-right
             display flex
             flex-direction column
+            ul
+                display flex
+                justify-content center
+                margin-bottom 10px
+                li
+                    font-size 14px
             & span:first-child
                 font-size 14px
                 margin-bottom 10px

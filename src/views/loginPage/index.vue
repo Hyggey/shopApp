@@ -10,8 +10,10 @@
             <form>
                 <div :class="{on:!loginFlag}">
                     <div class="loginitem phone">
-                        <input type="text" placeholder="手机号">
-                        <button>获取验证码</button>
+                        <input type="text" placeholder="手机号" v-model="phone">
+                        <button :disabled="!rightPhone || computedTime>0" :class="{right_phone:rightPhone}" @click.prevent="getCode">
+                            {{computedTime>0?`剩余${computedTime}s`:'获取验证码'}}
+                        </button>
                     </div>
                     <div class="loginitem verify">
                         <input type="text" placeholder="验证码">
@@ -28,7 +30,12 @@
                         <input type="text" placeholder="手机/邮箱/用户名">
                     </div>
                     <div class="loginitem phone">
-                        <input type="text" placeholder="密码">
+                        <input type="text" placeholder="密码" v-if="showPwd">
+                        <input type="password" placeholder="密码" v-else>
+                        <div class="switch_button" :class="{flagon:showPwd}" @click="showPwd=!showPwd">
+                            <div class="switch_circle" :class="{right:showPwd}"></div>
+                            <span :class="{switch_text:!showPwd}">{{showPwd?'abc':'...'}}</span>
+                        </div>
                     </div>
                     <div class="loginitem phone">
                         <input type="text" placeholder="验证码">
@@ -45,19 +52,39 @@
 export default {
     data(){
         return {
-            loginFlag: true
+            loginFlag: true,
+            phone:'',
+            computedTime: 0,
+            showPwd: false
         }
     },
     created(){
-        this.$axios({
-            method:'GET',
-            url:'/index_category'
-        }).then(res =>{
-            console.log(res.data)
-        })
+        // this.$axios({
+        //     method:'GET',
+        //     url:'/index_category'
+        // }).then(res =>{
+        //     console.log(res.data)
+        // })
     },
     methods:{
-        
+        getCode(){
+            console.log(111)
+            // 如果当前没有计时    !this.computedTime 与 this.computedTime == 0 效果相同   意思就是当判断条件为啥啥等于0 就等于这个啥啥取非
+            if(!this.computedTime){
+                this.computedTime = 30;
+                const cloak = setInterval(() =>{
+                    this.computedTime--;
+                    if(this.computedTime<=0){
+                        clearInterval(cloak)
+                    }
+                },1000)
+            }
+        }
+    },
+    computed:{
+        rightPhone(){
+            return /^1[3456789]\d{9}$/.test(this.phone)
+        }
     }
 }
 </script>
@@ -118,8 +145,40 @@ export default {
                         outline none
                         &:active
                             opacity .6
+                    .right_phone
+                        color #000
                 .phone
                     position relative
+                    .flagon
+                        background #02a774
+                    .switch_button
+                        color #ffffff
+                        font-size 12px
+                        position absolute
+                        top 50%
+                        transform translateY(-50%)
+                        right 10px
+                        width 30px
+                        height 16px
+                        border 1px solid #dddddd
+                        line-height 16px
+                        border-radius 8px
+                        padding 0 6px
+                        .switch_circle
+                            left -1px
+                            top -1px
+                            position absolute
+                            background #fff
+                            width 16px
+                            height 16px
+                            border-radius 50%
+                            border 1px solid #ddd
+                            transition 0.3s all ease
+                        .right
+                            transform translateX(28px)
+                        .switch_text
+                            color #dddddd
+                            float right
                 section 
                     span 
                         font-size 14px

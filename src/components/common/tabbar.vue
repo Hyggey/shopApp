@@ -61,6 +61,8 @@ export default {
                 display flex
                 flex-direction column
                 align-items center
+                &:active
+                    opacity .6
                 .iconfont
                     font-size 28px
                 & span:last-child
