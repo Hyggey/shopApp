@@ -7,7 +7,7 @@
             <span :class="{on:!loginFlag}" @click="loginFlag = false">密码登录</span>
         </div>
         <div class="login-content">
-            <form>
+            <form @submit.prevent="login">
                 <div :class="{on:!loginFlag}">
                     <div class="loginitem phone">
                         <input type="text" placeholder="手机号" v-model="phone">
@@ -16,7 +16,7 @@
                         </button>
                     </div>
                     <div class="loginitem verify">
-                        <input type="text" placeholder="验证码">
+                        <input type="text" placeholder="验证码" v-model="verifyCode">
                     </div>
                     <section>
                         <span>温馨提示：未注册硅谷外卖账号的手机号，
@@ -27,24 +27,29 @@
                 </div>
                 <div :class="{on:loginFlag}">
                     <div class="loginitem phone">
-                        <input type="text" placeholder="手机/邮箱/用户名">
+                        <input type="text" placeholder="手机/邮箱/用户名" v-model="name">
                     </div>
                     <div class="loginitem phone">
-                        <input type="text" placeholder="密码" v-if="showPwd">
-                        <input type="password" placeholder="密码" v-else>
+                        <input type="text" placeholder="密码" v-if="showPwd" v-model="pwd">
+                        <input type="password" placeholder="密码" v-else v-model="pwd">
                         <div class="switch_button" :class="{flagon:showPwd}" @click="showPwd=!showPwd">
                             <div class="switch_circle" :class="{right:showPwd}"></div>
                             <span :class="{switch_text:!showPwd}">{{showPwd?'abc':'...'}}</span>
                         </div>
                     </div>
-                    <div class="loginitem phone">
-                        <input type="text" placeholder="验证码">
+                    <div class="loginitem imgCode">
+                        <input type="text" placeholder="图片验证码" v-model="captcha">
+                        <!-- 方法一 -->
+                        <!-- <img src="http://localhost:4000/captcha" alt="" @click="getCaptcha"> -->
+                        <!-- 方法二以vue的方式 -->
+                        <img :src="newImg" alt="" @click="getCaptcha">
                     </div>
                 </div>
                 <button class="loginbtn">登录</button>
                 <p>关于我们</p>
             </form>
         </div>
+        <zz-alertTip :tipText="tipText" v-show="tipFlag" @closeTip="closeTip"></zz-alertTip>
     </div>
 </template>
 
@@ -53,9 +58,16 @@ export default {
     data(){
         return {
             loginFlag: true,
-            phone:'',
+            phone:'',   //手机号
             computedTime: 0,
-            showPwd: false
+            showPwd: false,
+            verifyCode:'',  //短信验证码
+            name:"",   //用户名，邮箱，手机号
+            captcha:"",
+            tipText:'',
+            tipFlag: false,
+            pwd:'',
+            newImg:''  //图片验证码的svg地址
         }
     },
     created(){
@@ -65,6 +77,7 @@ export default {
         // }).then(res =>{
         //     console.log(res.data)
         // })
+        this.getCaptcha()
     },
     methods:{
         getCode(){
@@ -78,7 +91,80 @@ export default {
                         clearInterval(cloak)
                     }
                 },1000)
+                // 发送ajax请求
+                this.$axios({
+                    method:'get',
+                    url:'/sendcode',
+                    params:{
+                        phone: this.phone
+                    }
+                }).then(res =>{
+                    console.log(res.data)
+                    if(res.data.code == 1){
+                        this.tipFlag = true;
+                        this.tipText = res.data.msg;
+                        this.computedTime = 0
+                        clearInterval(cloak);
+                    }
+                })
             }
+        },
+        showTip(tip){
+            this.tipFlag = true;
+            this.tipText = tip
+        },
+        login(){
+            if(this.loginFlag){   //短信登录
+                const {rightPhone,phone,verifyCode} = this
+                if(!this.rightPhone) {
+                    // 提示手机号不正确
+                    this.showTip('请输入正确的手机号')
+                } else if(!/^\d{6}$/.test(verifyCode)){
+                    // 验证必须是6位数字
+                    this.showTip('验证必须是6位数字')
+                } else{
+                    // 发送ajax请求
+                    this.$axios({
+                        method:'POST',
+                        url:'/login_sms',
+                        data:{
+                            phone:this.phone,
+                            code: this.verifyCode
+                        }
+                    }).then(res =>{
+                        if(res.data.code == 0){
+                            this.$router.replace('/tabbar/profile')
+                        }else{
+                            this.showTip(res.data.msg)
+                        }
+                    })
+                }
+            } else {  //密码登录
+                const {name,pwd,captcha}  = this
+                if(!this.name){
+                    // 用户名必须指定
+                    this.showTip('用户名不能为空')
+                } else if(!this.pwd){
+                    //密码必须指定
+                    this.showTip('密码不能为空')
+                } else if(!this.captcha){
+                    //图像验证码不能为空
+                    this.showTip('图形验证码不能为空')
+                }
+            }
+        },
+        closeTip(){
+            this.tipFlag = false;
+            this.tipText = ''
+        },
+        // 获取图片验证码
+        // 方法一
+        // getCaptcha(e){
+        //     e.target.src = 'http://localhost:4000/captcha?time='+Date.now()
+        // }
+        // 方法二
+        getCaptcha(){
+            this.newImg = 'http://localhost:4000/captcha?time'+new Date().getTime()
         }
     },
     computed:{
@@ -179,6 +265,13 @@ export default {
                         .switch_text
                             color #dddddd
                             float right
+                .imgCode
+                    position relative
+                    img 
+                        position absolute
+                        top 50%
+                        right 0
+                        transform translateY(-50%)
                 section 
                     span 
                         font-size 14px

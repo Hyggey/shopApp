@@ -9,3 +9,6 @@ Vue.component('zz-headerTop', resolve => require(['@/components/common/headerTop
 
 // 首页商品卡片组件
 Vue.component('zz-shopCard', resolve => require(['@/components/common/shop_card'], resolve))
+
+// 自定义弹框组件
+Vue.component('zz-alertTip', resolve => require(['@/components/common/alertTip'], resolve))

@@ -23,6 +23,8 @@ export default {
         position absolute
         top 50%
         transform translateY(-70%)
+        img 
+            width 100%
         span
             display block
             text-align center
