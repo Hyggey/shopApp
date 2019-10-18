@@ -5,12 +5,25 @@
             <input type="text" placeholder="请输入商家或美食名称">
             <button>提交</button>
         </div>
+        <!-- 下面这种直接就访问了vuex中的state，不提倡使用 -->
+        <!-- {{$store.state.count}} -->
+        <!-- {{count}} -->
+        <!-- <button @click="add">加1</button> -->
     </div>
 </template>
 
 <script>
+// import { mapState,mapMutations } from 'vuex'
 export default {
-    
+    // computed:{
+    //     ...mapState(['count'])
+    // },
+    // methods:{
+    //     ...mapMutations(['increment']),
+    //     add(){
+    //         this.increment()
+    //     }
+    // }
 }
 </script>
 

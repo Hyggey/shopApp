@@ -54,6 +54,9 @@
 </template>
 
 <script>
+// import { userInfo } from 'os';
+// import { userInfo } from 'os';
+import {mapActions} from 'vuex'
 export default {
     data(){
         return {
@@ -113,7 +116,11 @@ export default {
             this.tipFlag = true;
             this.tipText = tip
         },
-        login(){
+        // 第一点：这里用了async function() await    （await 用一个变量来接收）
+        // 第二点：用了解构赋值
+        // 第三点：合并了代码  其中注释部分都合并了，合并时用了 一个let result; 然后后面 用不同的result来分别接收返回的结果
+        async login(){
+            let result
             if(this.loginFlag){   //短信登录
                 const {rightPhone,phone,verifyCode} = this
                 if(!this.rightPhone) {
@@ -124,20 +131,34 @@ export default {
                     this.showTip('验证必须是6位数字')
                 } else{
                     // 发送ajax请求
-                    this.$axios({
+                    // this.$axios({
+                    //     method:'POST',
+                    //     url:'/login_sms',
+                    //     data:{
+                    //         phone:this.phone,
+                    //         code: this.verifyCode
+                    //     }
+                    // }).then(res =>{
+                    //     if(res.data.code == 0){
+                    //         this.$router.replace('/tabbar/profile')
+                    //     }else{
+                    //         this.showTip(res.data.msg)
+                    //     }
+                    // })
+                    result = await this.$axios({
                         method:'POST',
                         url:'/login_sms',
                         data:{
                             phone:this.phone,
-                            code: this.verifyCode
-                        }
-                    }).then(res =>{
-                        if(res.data.code == 0){
-                            this.$router.replace('/tabbar/profile')
-                        }else{
-                            this.showTip(res.data.msg)
+                            code:this.verifyCode
                         }
                     })
+                    console.log(result)
+                    // if(result.data.code == 0){
+                    //     this.$router.replace('/tabbar/profile')
+                    // } else{
+                    //     this.showTip(result.data.msg)
+                    // }
                 }
             } else {  //密码登录
                 const {name,pwd,captcha}  = this
@@ -150,9 +171,32 @@ export default {
                 } else if(!this.captcha){
                     //图像验证码不能为空
                     this.showTip('图形验证码不能为空')
+                } else{
+                    result = await this.$axios({
+                        method:'POST',
+                        url:'/login_pwd',
+                        data:{
+                            name:this.name,
+                            pwd: this.pwd,
+                            captcha: this.captcha
+                        }
+                    })
+                    console.log(result)
                 }
             }
+            if(result.data.code == 0){
+                // 将用户数据传入vuex
+                // 方式一
+                // this.$store.dispatch('recordUser',result.data.data)
+                // 方式二
+                this.recordUser(result.data.data)
+                this.$router.replace('/tabbar/profile')
+            } else{
+                this.showTip(result.data.msg)
+                this.getCaptcha()
+            }
         },
+        ...mapActions(['recordUser']),
         closeTip(){
             this.tipFlag = false;
             this.tipText = ''

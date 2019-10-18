@@ -7,13 +7,11 @@
                     <span class="iconfont iconicontouxiang"></span>
                     <div class="msg">
                         <div class="msg_top">
-                            <span>登录</span>
-                            <span>/</span>
-                            <span>注册</span>
+                            <span v-if="!user.userInfo.phone">{{user.userInfo.name?user.userInfo.name:'登录/注册'}}</span>
                         </div>
                         <div class="msg_bottom">
                             <span class="iconfont iconiconset0227"></span>
-                            <span>暂无绑定手机号</span>
+                            <span>{{user.userInfo.phone?user.userInfo.phone:'暂无绑定手机号'}}</span>
                         </div>
                     </div>
                 </div>
@@ -68,14 +66,22 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
     data(){
         return {
         }
     },
+    computed:{
+        ...mapState(['user'])
+    },
     methods:{
         toLogin(){
-            this.$router.push('/login')
+            if(this.user.userInfo._id){
+                this.$router.push('/userInfo')
+            }else{
+                this.$router.push('/login')
+            }
         }
     }
 }
