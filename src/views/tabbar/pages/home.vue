@@ -1,13 +1,13 @@
 <template>
     <div class="homeContainer">
+        <keep-alive>
         <!-- 首页头部 -->
         <zz-headerTop :title="address">
-            <span class="iconfont iconsousuo" slot="left"></span>
-            <div slot="right">
-                <span>登录</span>
-                <span>|</span>
-                <span>注册</span>
-            </div>
+            <router-link to="/tabbar/search" tag="span" class="iconfont iconsousuo" slot="left"></router-link>
+            <router-link slot="right" :to="user.userInfo._id?'/userInfo':'/login'" tag="span">
+                <span class="iconfont iconjack" v-if="user.userInfo._id"></span>
+                <span v-else>登录&nbsp;|&nbsp;注册</span>
+            </router-link>
         </zz-headerTop>
         <!-- 首页轮播区域 -->
         <div class="homeSwiper">
@@ -36,12 +36,14 @@
             </div>
             <img src="../../../../static/homeImages/shop_back.svg" v-for="item in 6" alt="" v-else :key="item">
         </div>
+         </keep-alive>
     </div>
 </template>
 
 <script>
 import Swiper from 'swiper'
 import 'swiper/css/swiper.min.css'
+import {mapState} from 'vuex'
 export default {
     data(){
         return {
@@ -109,6 +111,9 @@ export default {
         this.getHeader()
         this.getSwiper()
         this.getshopList()
+    },
+    computed:{
+        ...mapState(['user'])
     },
     methods:{
         // 获取头部位置信息
@@ -179,6 +184,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+    .iconjack
+        font-size 22px
     .homeSwiper
     .swiper-pagination.swiper-pagination-bullets
         bottom 5px

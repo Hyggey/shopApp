@@ -62,6 +62,7 @@
                 </div>
             </div>
         </div>
+        <mt-button type="danger" @click="out" v-if="user.userInfo._id" style="width:100%;margin-top:20px">退出登录</mt-button>
     </div>
 </template>
 
@@ -82,8 +83,26 @@ export default {
             }else{
                 this.$router.push('/login')
             }
+        },
+        out(){
+            this.$MessageBox.confirm('确定退出吗?').then(
+                action => {
+                    this.$axios({
+                        method:'GET',
+                        url:'/logout'
+                    }).then(res =>{
+                        // console.log(res.data)
+                        if(res.data.code == 0){
+                            this.$store.dispatch('resetUserInfo');
+                            this.$Toast('退出成功')
+                        }
+                    })
+                },
+                action => {
+                    console.log('用户点击了取消')
+                })
+            }
         }
-    }
 }
 </script>
 

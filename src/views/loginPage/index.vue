@@ -186,9 +186,9 @@ export default {
             }
             if(result.data.code == 0){
                 // 将用户数据传入vuex
-                // 方式一
+                // 方式一  （就下面这一句话）
                 // this.$store.dispatch('recordUser',result.data.data)
-                // 方式二
+                // 方式二  56，199，193
                 this.recordUser(result.data.data)
                 this.$router.replace('/tabbar/profile')
             } else{
