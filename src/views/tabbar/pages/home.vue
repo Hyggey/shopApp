@@ -1,6 +1,5 @@
 <template>
     <div class="homeContainer">
-        <keep-alive>
         <!-- 首页头部 -->
         <zz-headerTop :title="address">
             <router-link to="/tabbar/search" tag="span" class="iconfont iconsousuo" slot="left"></router-link>
@@ -31,12 +30,11 @@
                 <span class="iconfont iconcaidan"></span>
                 <span>附近商家</span>
             </div>
-            <div v-if="shopList.length">
+            <div v-if="shopList.length" @click="$router.push('/shop')">
                 <zz-shopCard v-for="(item,index) in shopList" :key="index" :list="item"></zz-shopCard>
             </div>
             <img src="../../../../static/homeImages/shop_back.svg" v-for="item in 6" alt="" v-else :key="item">
         </div>
-         </keep-alive>
     </div>
 </template>
 

@@ -5,12 +5,18 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+// 引入mock接口数据
+import '@/mock/mockServer.js'
+
 Vue.config.productionTip = false
 
 // 全局引入axios请求方法
 import axios from '@/public/js/axiosCom.js'
 
 Vue.prototype.$axios = axios.instance 
+
+// 全局注册axios 不需要跨域，访问本地mock接口
+Vue.prototype.$axiosOther = axios.other;
 
 // 全局引入公共组件
 import '@/public/js/common_components.js'

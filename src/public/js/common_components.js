@@ -38,3 +38,6 @@ Vue.component('zz-shopCard', resolve => require(['@/components/common/shop_card'
 
 // 自定义弹框组件
 Vue.component('zz-alertTip', resolve => require(['@/components/common/alertTip'], resolve))
+
+// 商家头部组件
+Vue.component('zz-shopHeader', resolve => require(['@/components/common/shopHeader'], resolve))

@@ -6,6 +6,13 @@ const instance = axios.create({
     headers: {'X-Custom-Header': 'foobar'}
   });
 
+  const other = axios.create({
+    baseURL: '',
+    timeout: 1000,
+    headers: {'X-Custom-Header': 'foobar'}
+  });
+
   export default {
-      instance
+      instance,
+      other
   }
