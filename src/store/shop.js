@@ -1,7 +1,8 @@
 const shop = {
     state:{
         shopInfo:{},
-        c:''
+        c:'',
+        shopGoods:[]
     },
     getters:{
 
@@ -10,6 +11,9 @@ const shop = {
         resolveShop(state,a){
             state.shopInfo = a.data
             state.c = a.b
+        },
+        resolveShopGoods(state,a){
+            state.shopGoods = a.data
         }
     },
     actions:{
@@ -28,6 +32,9 @@ const shop = {
                 // this.$store.dispatch('receiveShop',{data:res.data.data,b:1})
                 commit('resolveShop',{data:res.data.data,b:1})
             })
+        },
+        getShopGoods({commit},b){
+            commit('resolveShopGoods',b)
         }
     }
 }

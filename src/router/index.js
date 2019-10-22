@@ -52,7 +52,7 @@ export default new Router({
 		// 商品详情页面
 		{
 			path: '/shop',
-			name: 'shop',
+			// name: 'shop',
 			component: () => import('@/views/shopPage/index.vue'),
 			children:[
 				{

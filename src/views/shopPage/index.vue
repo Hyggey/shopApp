@@ -1,6 +1,6 @@
 <template>
     <div class="shopPageContainer">
-        <div @click="$router.back()">
+        <div>
             <zz-shopHeader></zz-shopHeader>
         </div>
         <div class="shopContainer">
