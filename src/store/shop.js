@@ -35,6 +35,8 @@ const shop = {
         },
         getShopGoods({commit},b){
             commit('resolveShopGoods',b)
+            // 数据更新后通知组件
+            b.callback && b.callback()
         }
     }
 }

@@ -166,6 +166,7 @@ export default {
             left 0
             bottom 0
             background rgba(0,0,0,.5)
+            z-index 1
             &.fade-enter-active,&.fade-leave-active
                 transition opacity .5s
             &.fade-enter,&.fade-leave-to
@@ -179,6 +180,7 @@ export default {
                 left 50%
                 transform translate(-50%,-50%)
                 border-radius 5px
+                z-index 99
                 .section_title
                     display flex
                     justify-content center
