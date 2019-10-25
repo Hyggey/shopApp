@@ -2,7 +2,9 @@
     <div class="shopGoodsContainer">
         <div class="shopGoods_left">
             <ul>
-                <li v-for="(goods,index) in shopGoods" :key="index">
+                <li v-for="(goods,index) in shopGoods" :key="index" 
+                :class="{current:currentIndex == index}"
+                @click="getCurrentIndex(index)">
                     <div class="goodsItem">
                         <img :src="goods.icon" alt="" v-if="goods.icon">
                         <span>{{goods.name}}</span>
@@ -11,7 +13,7 @@
             </ul>
         </div>
         <div class="shopGoods_right">
-            <ul class="food_list" ref="foodsUrl">
+            <ul class="food_list" ref="foodsUl">
                 <li v-for="(shopgoods,index) in shopGoods" :key="index" class="food_list_li">
                     <h1>{{shopgoods.name}}</h1>
                     <ul class="food_list_item">
@@ -23,14 +25,15 @@
                                     <span class="desc">{{shopgood.description}}</span>
                                     <span class="desc">月售{{shopgood.sellCount}}份&nbsp;&nbsp;好评率{{shopgood.rating}}%</span>
                                     <div class="price">
-                                        <span>￥{{shopgood.price}}</span>
+                                        <span class="new">￥{{shopgood.price}}</span>
                                         <span class="old" v-if="shopgood.oldPrice">￥{{shopgood.oldPrice}}</span>
+                                        <zz-cartControl :food="shopgood"></zz-cartControl>
                                     </div>
                                 </div>
                             </div>
-                            <div class="item_right">
-
-                            </div>
+                            <!-- <div class="item_right">
+                                <zz-cartControl></zz-cartControl>
+                            </div> -->
                         </li>
                     </ul>
                 </li>
@@ -52,10 +55,24 @@ export default {
     created(){
         this.getGoods()
     },
+    // updated() {
+    //     console.log(this.currentIndex)
+    // },
     computed:{
         ...mapState({
             shopGoods: state=> state.shop.shopGoods
-        })
+        }),
+        currentIndex(){
+            // 得到条件数据
+            const {scrollY,tops} = this
+            // 根据条件计算产生一个结果
+            const index = tops.findIndex((top,index) => {
+                // scrollY >= 当前top && scrollY <= 下一个top
+                return scrollY>=top && scrollY<tops[index+1]
+            }) 
+            // 返回结果
+            return index
+        }
     },
     methods:{
         getGoods(){
@@ -82,13 +99,21 @@ export default {
         },
         //初始化滚动条
         _initScroll(){
-            new BScroll('.shopGoods_left')
-                const foodsScroll = new BScroll('.shopGoods_right',{
-                    probeType: 2
-                })
-                foodsScroll.on('scroll',({x,y}) =>{
-                    console.log(x,y);
-                    this.scrollY = Math.abs(y)
+            new BScroll('.shopGoods_left',{
+                click: true
+            })
+            this.foodsScroll = new BScroll('.shopGoods_right',{
+                probeType: 2,
+                click: true
+            })
+            this.foodsScroll.on('scroll',({x,y}) =>{
+                console.log(x,y);
+                this.scrollY = Math.abs(y)   // 取正值
+            })
+            // 滚动结束的监听
+            this.foodsScroll.on('scrollEnd',({x,y}) =>{
+                console.log('scrollEnd',x,y);
+                this.scrollY = Math.abs(y)   // 取正值
             })
         },
         _initTops(){
@@ -97,15 +122,23 @@ export default {
             let top = 0;
             tops.push(top)
             // 第二步 收集，找到所有的分类li
-            const lis = this.$refs.foodsUrl.getElementsByClassName('food_list_li')
+            const lis = this.$refs.foodsUl.getElementsByClassName('food_list_li')
             Array.prototype.slice.call(lis).forEach(li => {
-                top += li.clientHeight
+                top += li.scrollHeight
                 tops.push(top)
             });
             console.log(lis)
             // 第三步：更新data中的tops数组
             this.tops = tops
             console.log(this.tops)
+        },
+        // 点击左侧，右侧跟着变化
+        getCurrentIndex(index){
+            // console.log(index)
+            // 根据传过来用户点击的index得到scrollY的值y
+            const y= this.tops[index]
+            this.scrollY = y
+            this.foodsScroll.scrollTo(0,-y,300)
         }
     }
 }
@@ -114,10 +147,11 @@ export default {
 <style lang="stylus">
     .shopGoodsContainer
         display flex
-        // position absolute
-        // top 195px
-        // bottom 58px
-        height 400px
+        position absolute
+        top 195px
+        bottom 58px
+        // height 400px
+        width 100%
         overflow hidden
         .shopGoods_left
             width 102px
@@ -166,6 +200,7 @@ export default {
                             // border-bottom 1px solid #ccc
                             // padding 20px 0
         .shopGoods_right
+            flex 1
             .food_list
                 li
                     h1
@@ -181,8 +216,11 @@ export default {
                             margin 18px
                             padding-bottom 18px
                             border-bottom 1px solid #cccccc
+                            display flex
+                            justify-content space-between
                             .item_left
                                 display flex
+                                width 100%
                                 img 
                                     width 57px
                                     height 57px
@@ -191,15 +229,22 @@ export default {
                                     display flex
                                     flex-direction column
                                     justify-content space-between
+                                    width 100%
                                     .desc
                                         font-size 10px
                                         color #93999f
                                         margin 2px 0
                                     .price
-                                        span:first-child
+                                        display flex
+                                        justify-content space-between
+                                        .new
                                             color #f01414
                                         .old
                                             color #666
                                             font-size 12px
                                             text-decoration line-through
+                            .item_right
+                                display flex
+                                flex-direction column
+                                justify-content flex-end
 </style>

@@ -41,3 +41,6 @@ Vue.component('zz-alertTip', resolve => require(['@/components/common/alertTip']
 
 // 商家头部组件
 Vue.component('zz-shopHeader', resolve => require(['@/components/common/shopHeader'], resolve))
+
+// 购物车增减组件
+Vue.component('zz-cartControl', resolve => require(['@/components/common/cartControl'], resolve))
