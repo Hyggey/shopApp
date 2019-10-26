@@ -1,44 +1,47 @@
 <template>
     <div class="shopGoodsContainer">
-        <div class="shopGoods_left">
-            <ul>
-                <li v-for="(goods,index) in shopGoods" :key="index" 
-                :class="{current:currentIndex == index}"
-                @click="getCurrentIndex(index)">
-                    <div class="goodsItem">
-                        <img :src="goods.icon" alt="" v-if="goods.icon">
-                        <span>{{goods.name}}</span>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div class="shopGoods_right">
-            <ul class="food_list" ref="foodsUl">
-                <li v-for="(shopgoods,index) in shopGoods" :key="index" class="food_list_li">
-                    <h1>{{shopgoods.name}}</h1>
-                    <ul class="food_list_item">
-                        <li v-for="(shopgood,index) in shopgoods.foods" :key="index">
-                            <div class="item_left">
-                                <img :src="shopgood.icon" alt="">
-                                <div class="foodMsg_right">
-                                    <span>{{shopgood.name}}</span>
-                                    <span class="desc">{{shopgood.description}}</span>
-                                    <span class="desc">月售{{shopgood.sellCount}}份&nbsp;&nbsp;好评率{{shopgood.rating}}%</span>
-                                    <div class="price">
-                                        <span class="new">￥{{shopgood.price}}</span>
-                                        <span class="old" v-if="shopgood.oldPrice">￥{{shopgood.oldPrice}}</span>
-                                        <zz-cartControl :food="shopgood"></zz-cartControl>
+        <div class="goods" style="display:flex">
+            <div class="shopGoods_left">
+                <ul>
+                    <li v-for="(goods,index) in shopGoods" :key="index" 
+                    :class="{current:currentIndex == index}"
+                    @click="getCurrentIndex(index)">
+                        <div class="goodsItem">
+                            <img :src="goods.icon" alt="" v-if="goods.icon">
+                            <span>{{goods.name}}</span>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="shopGoods_right">
+                <ul class="food_list" ref="foodsUl">
+                    <li v-for="(shopgoods,index) in shopGoods" :key="index" class="food_list_li">
+                        <h1>{{shopgoods.name}}</h1>
+                        <ul class="food_list_item">
+                            <li v-for="(shopgood,index) in shopgoods.foods" :key="index">
+                                <div class="item_left">
+                                    <img :src="shopgood.icon" alt="">
+                                    <div class="foodMsg_right">
+                                        <span>{{shopgood.name}}</span>
+                                        <span class="desc">{{shopgood.description}}</span>
+                                        <span class="desc">月售{{shopgood.sellCount}}份&nbsp;&nbsp;好评率{{shopgood.rating}}%</span>
+                                        <div class="price">
+                                            <span class="new">￥{{shopgood.price}}</span>
+                                            <span class="old" v-if="shopgood.oldPrice">￥{{shopgood.oldPrice}}</span>
+                                            <zz-cartControl :food="shopgood"></zz-cartControl>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <!-- <div class="item_right">
-                                <zz-cartControl></zz-cartControl>
-                            </div> -->
-                        </li>
-                    </ul>
-                </li>
-            </ul>
+                                <!-- <div class="item_right">
+                                    <zz-cartControl></zz-cartControl>
+                                </div> -->
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
+        <zz-foodCard></zz-foodCard>
     </div>
 </template>
 

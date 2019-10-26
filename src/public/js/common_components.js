@@ -44,3 +44,6 @@ Vue.component('zz-shopHeader', resolve => require(['@/components/common/shopHead
 
 // 购物车增减组件
 Vue.component('zz-cartControl', resolve => require(['@/components/common/cartControl'], resolve))
+
+// 食品放大小组件
+Vue.component('zz-foodCard', resolve => require(['@/components/common/food_card'], resolve))
