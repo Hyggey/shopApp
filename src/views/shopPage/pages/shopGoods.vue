@@ -18,7 +18,8 @@
                     <li v-for="(shopgoods,index) in shopGoods" :key="index" class="food_list_li">
                         <h1>{{shopgoods.name}}</h1>
                         <ul class="food_list_item">
-                            <li v-for="(shopgood,index) in shopgoods.foods" :key="index">
+                            <li v-for="(shopgood,index) in shopgoods.foods" :key="index"
+                            @click="showFood(shopgood)">
                                 <div class="item_left">
                                     <img :src="shopgood.icon" alt="">
                                     <div class="foodMsg_right">
@@ -40,8 +41,9 @@
                     </li>
                 </ul>
             </div>
+            <zz-shopCart></zz-shopCart>
         </div>
-        <zz-foodCard></zz-foodCard>
+        <zz-foodCard ref="food" :food="food"></zz-foodCard>
     </div>
 </template>
 
@@ -52,7 +54,8 @@ export default {
     data(){
         return {
             scrollY:0,  //右侧滑动的Y轴坐标（滑动过程实时变化）
-            tops:[]  // 所有右侧分类li的top组成的数组（列表第一次显示后无变化）
+            tops:[],  // 所有右侧分类li的top组成的数组（列表第一次显示后无变化）
+            food:{}   //需要显示的food
         }
     },
     created(){
@@ -88,12 +91,12 @@ export default {
                         data:res.data.data,
                         callback:() =>{  //数据更新后执行
                             this.$nextTick(() =>{   //数据显示后执行
-                                console.log(111)
                                 // 列表显示之后创建
                                 //初始化scroll滚动条
                                 this._initScroll()
                                 // 收集tops，写成数组
                                 this._initTops()
+                                console.log(111)
                             })
                         }
                     })
@@ -125,7 +128,7 @@ export default {
             let top = 0;
             tops.push(top)
             // 第二步 收集，找到所有的分类li
-            const lis = this.$refs.foodsUl.getElementsByClassName('food_list_li')
+            const lis = this.$refs.foodsUl.getElementsByClassName('food_list_li');
             Array.prototype.slice.call(lis).forEach(li => {
                 top += li.scrollHeight
                 tops.push(top)
@@ -142,6 +145,12 @@ export default {
             const y= this.tops[index]
             this.scrollY = y
             this.foodsScroll.scrollTo(0,-y,300)
+        },
+        showFood(shopgood){
+            // 设置food
+            this.food = shopgood 
+            // 显示food组件
+            this.$refs.food.toggleShow()
         }
     }
 }
@@ -152,7 +161,7 @@ export default {
         display flex
         position absolute
         top 195px
-        bottom 58px
+        bottom 54px
         // height 400px
         width 100%
         overflow hidden

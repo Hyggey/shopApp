@@ -1,10 +1,10 @@
 <template>
     <div class="cartControl">
         <transition name="move">
-            <span class="iconfont iconjianhao" v-if="food.count" @click="updateFoodCount(false)"></span>
+            <span class="iconfont iconjianhao" v-if="food.count" @click.stop="updateFoodCount(false)"></span>
         </transition>
         <span class="text" v-if="food.count">{{food.count}}</span>
-        <span class="iconfont icon21" @click="updateFoodCount(true)"></span>
+        <span class="iconfont icon21" @click.stop="updateFoodCount(true)"></span>
     </div>
 </template>
 

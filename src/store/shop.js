@@ -49,9 +49,11 @@ const shop = {
                 method:'GET',
                 url:'/info'
             }).then(res =>{
-                console.log(res.data);
-                // this.$store.dispatch('receiveShop',{data:res.data.data,b:1})
-                commit('resolveShop',{data:res.data.data,b:1})
+                if(res.data.code ==0){
+                    console.log(res.data);
+                    // this.$store.dispatch('receiveShop',{data:res.data.data,b:1})
+                    commit('resolveShop',{data:res.data.data,b:1})
+                }
             })
         },
         getShopGoods({commit},b){

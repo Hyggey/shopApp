@@ -47,3 +47,6 @@ Vue.component('zz-cartControl', resolve => require(['@/components/common/cartCon
 
 // 食品放大小组件
 Vue.component('zz-foodCard', resolve => require(['@/components/common/food_card'], resolve))
+
+// 小购物车组件
+Vue.component('zz-shopCart', resolve => require(['@/components/common/shopCart'], resolve))
