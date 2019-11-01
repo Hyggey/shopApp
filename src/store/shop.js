@@ -3,10 +3,16 @@ const shop = {
     state:{
         shopInfo:{},
         c:'',
-        shopGoods:[]
+        shopGoods:[],
+        cartFoods:[]
     },
     getters:{
-
+        totalCount(state){
+            return state.cartFoods.reduce((preTotal,food) =>preTotal+food.count,0)
+        },
+        totalPrice(state){
+            return state.cartFoods.reduce((preTotal,food) =>preTotal+food.count*food.price,0)
+        }
     },
     mutations:{
         resolveShop(state,a){
@@ -26,6 +32,8 @@ const shop = {
                 属性值
                 */
                 Vue.set(a.food,'count',1)
+                // 将food添加到cartFoods中去
+                state.cartFoods.push(a.food)
             }else{
                 a.food.count ++
             }
@@ -34,6 +42,10 @@ const shop = {
         decrement_food_count(state,a){
             if(a.food.count){
                 a.food.count --
+                if(a.food.count===0){
+                    //将food从cartFoods中移除
+                    state.cartFoods.splice(state.cartFoods.indexOf(a.food),1)
+                }
             }
         }
     },

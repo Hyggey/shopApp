@@ -4,52 +4,87 @@
             <div class="content">
                 <div class="content_left" @click="showMoney">
                     <div class="logo_wrapper">
-                        <div class="logo">
-                            <span class="iconfont icongouwuchekong"></span>
+                        <div class="logo" :class="{green:totalCount}">
+                            <span class="iconfont icongouwuchekong" :class="{green:totalCount}"></span>
                         </div>
-                        <div class="number">1</div>
+                        <div class="number" v-if="totalCount">{{totalCount}}</div>
                     </div>
                     <div class="money">
-                        <span>￥0</span>
-                        <span>另需配送费￥4元</span>
+                        <span>￥{{totalPrice}}</span>
+                        <span>另需配送费￥{{shopInfo.deliveryPrice}}元</span>
                     </div>
                 </div>
-                <div class="content-right">
-                    <span>￥20元起送</span>
+                <div class="content-right" :class="payClass">
+                    <span>{{patText}}</span>
                 </div>
             </div>
-            <div class="shop-list" v-show="isShow">
+            <div class="shop-list" v-show="listShow">
                 <div class="list-header">
                     <h1>购物车</h1>
                     <span>清空</span>
                 </div>
                 <div class="list-content">
                     <ul>
-                        <li>
-                            <span>南瓜粥</span>
+                        <li v-for="(food,index) in cartFoods" :key="index">
+                            <span>{{food.name}}</span>
                             <div class="shopList-right">
-                                <span class="red">￥9</span>
-                                <zz-cartControl></zz-cartControl>
+                                <span class="red">￥{{food.price}}</span>
+                                <zz-cartControl :food="food"></zz-cartControl>
                             </div>
                         </li>
                     </ul>
                 </div>
             </div>
         </div>
-        <div class="shop-olerly" v-show="isShow"></div>
+        <div class="shop-olerly" v-show="listShow" @click="showMoney"></div>
     </div>
 </template>
 
 <script>
+import {mapState,mapGetters} from 'vuex'
 export default {
     data(){
         return {
             isShow:false
         }
     },
+    computed:{
+        ...mapState({
+            shopInfo:state => state.shop.shopInfo,
+            cartFoods:state => state.shop.cartFoods
+        }),
+        ...mapGetters(['totalCount','totalPrice']),
+        payClass(){
+            const {totalPrice} = this;
+            const {minPrice} = this.shopInfo
+            return totalPrice>= minPrice? 'enough':'not-enough'
+        },
+        patText(){
+            const {totalPrice} = this;
+            const {minPrice} = this.shopInfo
+            if(totalPrice === 0){
+                return `￥${minPrice}元起送`
+            } else if(totalPrice<minPrice){
+                return  `还差${minPrice-totalPrice}元起送`
+            } else {
+                return '去结算'
+            }
+        },
+        listShow(){
+            // 如果总数量为0，直接不显示
+            if(this.totalCount ===0){
+                this.isShow = false
+                return false
+            }
+            return this.isShow
+        }
+    },
     methods:{
         showMoney(){
-            this.isShow = !this.isShow
+            // 只有当数量大于0时才开始切换
+            if(this.totalCount>0){
+                this.isShow = !this.isShow
+            }
         }
     }
 }
@@ -106,6 +141,7 @@ export default {
                             font-weight 700
                         .green
                             background #02a774
+                            color #fff!important
                     .money
                         display flex
                         flex-direction column
@@ -116,7 +152,6 @@ export default {
                             font-size 14px
                 .content-right
                     width 105px
-                    background #2b333b
                     span
                         display block
                         height 100%
@@ -124,6 +159,10 @@ export default {
                         color #fff
                         line-height 58px
                         text-align center
+                .enough
+                    background #02a774
+                .not-enough
+                    background #2b333b
             .shop-list
                 z-index -1
                 position absolute
