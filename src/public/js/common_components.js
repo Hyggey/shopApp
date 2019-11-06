@@ -50,3 +50,6 @@ Vue.component('zz-foodCard', resolve => require(['@/components/common/food_card'
 
 // 小购物车组件
 Vue.component('zz-shopCart', resolve => require(['@/components/common/shopCart'], resolve))
+
+//checkbox组件
+Vue.component('zz-checkbox',resolve => require(['@/components/common/input'], resolve))

@@ -18,29 +18,33 @@
                     <span>{{patText}}</span>
                 </div>
             </div>
-            <div class="shop-list" v-show="listShow">
-                <div class="list-header">
-                    <h1>购物车</h1>
-                    <span>清空</span>
+            <!-- 购物车上的列表 -->
+            <transition name="move">
+                <div class="shop-list" v-show="listShow">
+                    <div class="list-header">
+                        <h1>购物车</h1>
+                        <span @click="clearCart">清空</span>
+                    </div>
+                    <div class="list-content">
+                        <ul>
+                            <li v-for="(food,index) in cartFoods" :key="index">
+                                <span>{{food.name}}</span>
+                                <div class="shopList-right">
+                                    <span class="red">￥{{food.price}}</span>
+                                    <zz-cartControl :food="food"></zz-cartControl>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="list-content">
-                    <ul>
-                        <li v-for="(food,index) in cartFoods" :key="index">
-                            <span>{{food.name}}</span>
-                            <div class="shopList-right">
-                                <span class="red">￥{{food.price}}</span>
-                                <zz-cartControl :food="food"></zz-cartControl>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            </transition>
         </div>
         <div class="shop-olerly" v-show="listShow" @click="showMoney"></div>
     </div>
 </template>
 
 <script>
+import BScroll from '@better-scroll/core'
 import {mapState,mapGetters} from 'vuex'
 export default {
     data(){
@@ -72,9 +76,21 @@ export default {
         },
         listShow(){
             // 如果总数量为0，直接不显示
-            if(this.totalCount ===0){
+            if(this.totalCount === 0){
                 this.isShow = false
                 return false
+            }
+            if(this.isShow){
+                this.$nextTick(() =>{
+                    // 实现BScroll的实例是一个单例子
+                    if(!this.scroll){
+                        this.scroll = new BScroll('.list-content',{
+                            click: true
+                        })
+                    } else {
+                        this.scroll.refresh() //让滚动条刷新一下，从新统计高度
+                    }
+                })
             }
             return this.isShow
         }
@@ -85,6 +101,12 @@ export default {
             if(this.totalCount>0){
                 this.isShow = !this.isShow
             }
+        },
+        clearCart(){
+            this.$MessageBox.confirm('确定清空购物车吗？').then(action => {
+                this.$store.dispatch('clearCart')
+                // 空回调处理取消按钮回调的
+            },() =>{console.log('用户点击了取消按钮')})
         }
     }
 }
@@ -170,6 +192,10 @@ export default {
                 left 0
                 width 100%
                 transform translateY(-100%)
+                &.move-enter-active, &.move-leave-active
+                    transition transform 0.3s
+                &.move-enter, &.move-leave-to
+                    transform translateY(0)
                 .list-header
                     height 40px
                     line-height 40px
@@ -185,6 +211,8 @@ export default {
                 .list-content
                     padding 0 18px
                     background #ffffff
+                    max-height 217px
+                    overflow hidden
                     li
                         padding 12px 0
                         display flex

@@ -47,6 +47,15 @@ const shop = {
                     state.cartFoods.splice(state.cartFoods.indexOf(a.food),1)
                 }
             }
+        },
+        //清空购物车
+        muClearCart(state){
+            // 清除food中的count
+            state.cartFoods.forEach(food =>{
+                food.count = 0
+            });
+            //移除购物车中所有购物项
+            state.cartFoods = []
         }
     },
     actions:{
@@ -84,6 +93,11 @@ const shop = {
                 commit('decrement_food_count',b)
                 console.log(b.food.count)  // 写一个axios请求，减少的
             }
+        },
+
+        // 购物车清空按钮（清空功能）同步清空购物车
+        clearCart({commit}){
+            commit('muClearCart')
         }
     }
 }
