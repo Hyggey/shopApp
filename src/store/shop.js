@@ -4,7 +4,8 @@ const shop = {
         shopInfo:{},
         c:'',
         shopGoods:[],
-        cartFoods:[]
+        cartFoods:[],
+        ratings:[]
     },
     getters:{
         totalCount(state){
@@ -56,6 +57,11 @@ const shop = {
             });
             //移除购物车中所有购物项
             state.cartFoods = []
+        },
+
+        // 将商店的评价信息存储到vuex的state中去
+        addRatings(state,msg2){
+            state.ratings = msg2.data
         }
     },
     actions:{
@@ -98,6 +104,13 @@ const shop = {
         // 购物车清空按钮（清空功能）同步清空购物车
         clearCart({commit}){
             commit('muClearCart')
+        },
+
+        // 将商店的用户评价信息shopRatings存储到vuex中
+        getRatings({commit},msg1){
+            commit('addRatings',msg1)
+            // 数据更新后通知组件
+            msg1.callBack && msg1.callBack()
         }
     }
 }
