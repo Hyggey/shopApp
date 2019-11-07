@@ -1,8 +1,8 @@
 <template>
     <div class="shopPageContainer">
-        <div>
+        <!-- <div> -->
             <zz-shopHeader></zz-shopHeader>
-        </div>
+        <!-- </div> -->
         <div class="shopContainer">
             <div class="shopItem">
                 <router-link to="/shop/goods" :class="{active:$route.fullPath=='/shop/goods'}">点餐</router-link>
@@ -44,6 +44,7 @@ export default {
     .shopPageContainer
         .shopContainer
             display flex
+            position relative
             .shopItem
                 flex-grow 1
                 text-align center

@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import BScroll from '@better-scroll/core'
+import BScroll from 'better-scroll'
 import {mapState,mapGetters} from 'vuex'
 export default {
     data(){

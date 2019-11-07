@@ -1,5 +1,5 @@
 <template>
-    <div class="shopRatingsContainer">
+    <div class="shopRatingsContainer" ref="shoprating">
         <div class="shopRatings">
             <div class="ratings_header">
                 <div class="header_left">
@@ -16,9 +16,9 @@
             <div class="liver"></div>
             <div class="ratings_middle">
                 <div class="pleased">
-                    <button :class="{active:type==1}" @click="check(1)">全部&nbsp;24</button>
-                    <button :class="{active:type==2}" @click="check(2)">满意&nbsp;18</button>
-                    <button :class="{active:type==3}" @click="check(3)">不满意&nbsp;6</button>
+                    <button :class="{active:type==2}" @click="check(2)">全部&nbsp;{{shopRatings.length}}</button>
+                    <button :class="{active:type==0}" @click="check(0)">满意&nbsp;{{positiveSize}}</button>
+                    <button :class="{active:type==1}" @click="check(1)">不满意&nbsp;{{shopRatings.length-positiveSize}}</button>
                 </div>
                 <zz-checkbox :isChecked.sync="ischecked" text="只看有内容的评价"></zz-checkbox>
                 <!-- {{ischecked}}---父组件 -->
@@ -47,13 +47,13 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
-import BScroll from '@better-scroll/core'
+import BScroll from 'better-scroll'
+import {mapState,mapGetters} from 'vuex'
 export default {
     data(){
         return {
-            type: 1,
-            ischecked: false
+            type: 2,     // 0表示满意，1表示不满意，2代表全部
+            ischecked: false   //是否只显示有文本的
         }
     },
     created(){
@@ -61,16 +61,47 @@ export default {
         //     this._initScroll()
         // })
         // this._initScroll()    // 写在mounted中
-        this.getRatings()
+        this.getRatings()  //换一种写法,就是下面的mounted中的写法，意思就是在vuex中的actions发送异步请求
     },
+    // mounted(){
+    //     this.$store.dispatch('getratings',{
+    //         _this:this,
+    //         callback:() =>{
+    //         this.$nextTick(() =>{
+    //             new BScroll('.shopRatingsContainer',{
+    //                 click: true
+    //             })
+    //         })
+    //     }})
+    // },
     computed:{
         ...mapState({
             shopInfo: state => state.shop.shopInfo,
             shopRatings:state => state.shop.ratings
         }),
+        ...mapGetters(['positiveSize']),
         filterShopRatings(){
-            const {shopRatings} = this
-
+            const {shopRatings,type,ischecked} = this
+            // 产出一个过滤新数组
+            return shopRatings.filter(ratings =>{
+                const {rateType,text} = ratings
+                /*
+                    条件1：
+                        type： 0/1/2
+                        rateType: 0/1
+                        type === 2 || type === rateType
+                    条件2：
+                    ischecked: true/false
+                    text: 有值/没值
+                    !ischecked
+                    text.length>0
+                    !ischecked || text.length>0
+                */
+                return (type === 2 || type === rateType) && (!ischecked || text.length>0)
+                
+                this.scroll.refresh()
+            })
+            
         }
     },
     methods:{
@@ -82,7 +113,7 @@ export default {
         // },
         //  与60，61，62 是一起的
         _initScroll(){
-            this.scroll = new BScroll('.shopRatingsContainer',{
+            new BScroll('.shopRatingsContainer',{
                 click: true
             })
         },
@@ -97,7 +128,10 @@ export default {
                         data:res.data.data,
                         callBack:() =>{
                             this.$nextTick(() =>{
-                                this._initScroll()
+                                // this._initScroll()
+                                this.scroll = new BScroll('.shopRatingsContainer',{
+                                    click: true
+                                })
                             })
                         }
                     })

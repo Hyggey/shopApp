@@ -184,16 +184,19 @@ export default {
                     console.log(result)
                 }
             }
-            if(result.data.code == 0){
+            // 判断result一定存在，因为如果没走axios，result就不存在，为undefined
+            if(result){
+                if(result.data.code == 0){
                 // 将用户数据传入vuex
                 // 方式一  （就下面这一句话）
                 // this.$store.dispatch('recordUser',result.data.data)
                 // 方式二  56，199，193
                 this.recordUser(result.data.data)
                 this.$router.replace('/tabbar/profile')
-            } else{
-                this.showTip(result.data.msg)
-                this.getCaptcha()
+                } else{
+                    this.showTip(result.data.msg)
+                    this.getCaptcha()
+                }
             }
         },
         ...mapActions(['recordUser']),

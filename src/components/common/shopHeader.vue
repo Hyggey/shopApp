@@ -81,6 +81,7 @@ export default {
 
 <style lang="stylus" scoped>
     .shopHeaderContainer
+        position relative
         nav 
             background-size cover!important
             height 50px

@@ -13,7 +13,12 @@ const shop = {
         },
         totalPrice(state){
             return state.cartFoods.reduce((preTotal,food) =>preTotal+food.count*food.price,0)
+        },
+        // 计算评论的满意数量
+        positiveSize(state){
+            return state.ratings.reduce((preTotal,rating) =>preTotal+ (rating.rateType===0?1:0),0)
         }
+
     },
     mutations:{
         resolveShop(state,a){
@@ -111,7 +116,23 @@ const shop = {
             commit('addRatings',msg1)
             // 数据更新后通知组件
             msg1.callBack && msg1.callBack()
-        }
+        },
+
+        //换一种写法，与上面的一样，就是请求放在vuex中的actions中编写
+        // getratings({commit},data){
+        //     console.log(data)
+        //     data._this.$axiosOther({
+        //         method:'GET',
+        //         url:'/ratings'
+        //     }).then(res =>{
+        //         if(res.data.code ===0){
+        //             console.log(res.data)
+        //             const msg3 = res.data
+        //             commit('addRatings',msg3)
+        //             data.callback && data.callback()
+        //         }
+        //     })
+        // }
     }
 }
 
