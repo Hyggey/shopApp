@@ -4,35 +4,27 @@
             <div class="module_msg">
                 <h3>配送信息</h3>
                 <div class="msg">
-                    <span>硅谷专送</span>
-                    <span>由商家配送提供配送，约28分钟送达，距离1000m</span>
+                    <span>{{shopInfo.description}}</span>
+                    <span>由商家配送提供配送，约{{shopInfo.deliveryTime}}分钟送达，距离{{shopInfo.distance}}</span>
                 </div>
-                <p>配送费￥4</p>
+                <p>配送费￥{{shopInfo.deliveryPrice}}</p>
             </div>
             <div class="liver"></div>
             <section>
                 <h1>活动与服务</h1>
                 <div class="activity">
-                    <div class="activity_item">
-                        <span class="green">首单</span>
-                        <span>新用户下单立减17元(不与其它活动同享)</span>
-                    </div>
-                    <div class="activity_item">
-                        <span class="red">满减</span>
-                        <span>满35减19，满65减35</span>
-                    </div>
-                    <div class="activity_item">
-                        <span class="orange">特价</span>
-                        <span>【立减19.5元】欢乐小食餐</span>
+                    <div class="activity_item" v-for="(support,index) in shopInfo.supports" :key="index">
+                        <span :class="supportClasses[support.type]">{{support.name}}</span>
+                        <span>{{support.content}}</span>
                     </div>
                 </div>
             </section>
             <section>
                 <h1>商家实景</h1>
                 <div class="img-wrapper">
-                    <ul>
-                        <li v-for="(item,index) in 8" :key="index">
-                            <img src="" alt="">
+                    <ul ref="imgUl">
+                        <li v-for="(item,index) in shopInfo.pics" :key="index">
+                            <img :src="item" alt="">
                         </li>
                     </ul>
                 </div>
@@ -43,19 +35,19 @@
                  <div class="detail">
                      <div class="detail_item">
                          <span>品类</span>
-                         <span>包子粥店，简餐</span>
+                         <span>{{shopInfo.category}}</span>
                      </div>
                      <div class="detail_item">
                          <span>商家电话</span>
-                         <span>18501083744</span>
+                         <span>{{shopInfo.phone}}</span>
                      </div>
                      <div class="detail_item">
                          <span>地址</span>
-                         <span>北京市丰台区太平桥44号</span>
+                         <span>{{shopInfo.address}}</span>
                      </div>
                      <div class="detail_item">
                          <span>营业时间</span>
-                         <span>09:35-24:00</span>
+                         <span>{{shopInfo.workTime}}</span>
                      </div>
                  </div>
              </section>
@@ -65,17 +57,28 @@
 
 <script>
 import BScroll from 'better-scroll'
+import {mapState} from 'vuex'
 export default {
     data(){
         return {
-
+            supportClasses:['green','red','orange']
         }
     },
     mounted(){
-        new BScroll('.shopInfoContainer')
-        new BScroll('.img-wrapper',{
+        this.scroll1 = new BScroll('.shopInfoContainer')
+        console.log(this.shopInfo.pics.length,111)
+        const ul = this.$refs.imgUl;
+        const liWidth = (120+6)*(this.shopInfo.pics.length)-6;
+        ul.style.width = liWidth + 'px'
+
+        this.scroll2 = new BScroll('.img-wrapper',{
             click:true,
-            scrollX:true
+            scrollX:true   //水平滑动
+        })
+    },
+    computed:{
+        ...mapState({
+            shopInfo:state => state.shop.shopInfo
         })
     }
 }
@@ -142,7 +145,7 @@ export default {
                     white-space nowrap
                     overflow hidden
                     ul
-                        width 1008px
+                        // width 1008px
                         li 
                             width 120px
                             height 90px
@@ -150,6 +153,9 @@ export default {
                             border 1px solid #ccc
                             display inline-block
                             box-sizing border-box
+                            img 
+                                width 100%
+                                height 100%
                 .detail
                     .detail_item
                         color #666
