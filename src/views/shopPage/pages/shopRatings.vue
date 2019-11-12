@@ -30,7 +30,7 @@
                         <div class="li_right">
                             <div class="li_date">
                                 <span>{{rating.username}}</span>
-                                <span>{{rating.rateTime}}</span>
+                                <span>{{rating.rateTime | date-format}}</span>
                             </div>
                             <!-- 星星 -->
                             <p>{{rating.text}}</p>

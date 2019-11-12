@@ -5,6 +5,9 @@ import App from './App'
 import router from './router'
 import store from './store'
 
+//引入过滤器filter
+import '@/filters/index.js'
+
 // 引入mock接口数据
 import '@/mock/mockServer.js'
 

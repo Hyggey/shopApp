@@ -66,23 +66,55 @@ export default {
     },
     mounted(){
         this.scroll1 = new BScroll('.shopInfoContainer')
-        // this.$nextTick(() =>{
-        //     console.log(this.shopInfo,111)
-        // })
         
-        // const ul = this.$refs.imgUl;
-        // const liWidth = (120+6)*(this.shopInfo.pics.length)-6;
-        // ul.style.width = liWidth + 'px'
+        //方法二：设置定时器   方法一在152行
+        // setTimeout(() =>{
+        //     console.log(this.shopInfo,111)
+        //     const ul = this.$refs.imgUl;
+        //     const liWidth = (120+6)*(this.shopInfo.pics.length)-6;
+        //     ul.style.width = liWidth + 'px'
+        //     this.scroll2 = new BScroll('.img-wrapper',{
+        //         click:true,
+        //         scrollX:true   //水平滑动
+        //     })
+        // },100)
+            
+        //与方法一联合起来用
+        // this.scroll2 = new BScroll('.img-wrapper',{
+        //     click:true,
+        //     scrollX:true   //水平滑动
+        // })
 
-        this.scroll2 = new BScroll('.img-wrapper',{
-            click:true,
-            scrollX:true   //水平滑动
-        })
+        // 方法三: 90-95,112-118
+        // 如果数据还没有, 直接结束
+      if(!this.shopInfo.pics) {
+        return
+      }
+      // 数据有了, 可以创建BScroll对象形成滑动
+      this._initScroll()
     },
     computed:{
         ...mapState({
             shopInfo:state => state.shop.shopInfo
         })
+    },
+    methods:{
+        _initScroll(){
+            const ul = this.$refs.imgUl;
+            const liWidth = (120+6)*(this.shopInfo.pics.length)-6;
+            ul.style.width = liWidth + 'px'
+                this.scroll2 = new BScroll('.img-wrapper',{
+                    click:true,
+                    scrollX:true   //水平滑动
+                })
+        }
+    },
+    watch:{
+        shopInfo() {// 刷新流程--> 更新数据
+            this.$nextTick(() => {
+                this._initScroll()
+            })
+        }
     }
 }
 </script>
@@ -148,8 +180,9 @@ export default {
                     // white-space nowrap
                     overflow hidden
                     ul
-                        // width 1008px
-                        display inline-flex
+                        //方法一：使用原生css撑开ul来实现滑动
+                        // display inline-flex
+                        display flex
                         white-space nowrap
                         li 
                             width 120px

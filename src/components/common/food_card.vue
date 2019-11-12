@@ -3,7 +3,7 @@
         <div class="food_item">
             <div class="food_top">
                 <span @click="toggleShow" class="iconfont iconchangyongtubiao-xianxingdaochu-zhuanqu-1"></span>
-                <img :src="food.image" alt="">
+                <img v-lazy="food.image" alt="">
                 <span class="info">{{food.info}}</span>
             </div>
             <div class="food_bottom">

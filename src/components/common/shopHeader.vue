@@ -1,7 +1,8 @@
 <template>
     <div class="shopHeaderContainer">
+        <!-- <nav class="shop-nav" :style="{backgroundImage: `url(${shop.shopInfo.bgImg})`}"> -->
         <nav :style='{background:"url("+shop.shopInfo.bgImg+") no-repeat"}'>
-            <span @click="$router.push('/tabbar/home')" class="iconfont iconchangyongtubiao-xianxingdaochu-zhuanqu-1"></span>
+            <span @click="$router.back()" class="iconfont iconchangyongtubiao-xianxingdaochu-zhuanqu-1"></span>
         </nav>
         <div class="shop_content">
             <img :src="shop.shopInfo.avatar" alt="">
