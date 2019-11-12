@@ -9,6 +9,18 @@
         <!-- {{$store.state.count}} -->
         <!-- {{count}} -->
         <!-- <button @click="add">加1</button> -->
+        <section>
+            <ul>
+                <li>
+                    <img src="" alt="">
+                    <div class="msg_right">
+                        <span>aaa</span>
+                        <span>月售650单</span>
+                        <span>20元起送/距离1058公里</span>
+                    </div>
+                </li>
+            </ul>
+        </section>
     </div>
 </template>
 
@@ -59,4 +71,19 @@ export default {
             border-radius 5px
             &:active
                 opacity .6
+    section
+        ul
+            li 
+                display flex
+                padding 10px
+                border-bottom 1px solid #e4e4e4
+                img 
+                    width 55px
+                    height 55px
+                    margin-right 10px
+                .msg_right
+                    display flex
+                    flex-direction column
+                    font-size 13px
+                    justify-content space-between
 </style>
