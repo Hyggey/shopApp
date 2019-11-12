@@ -66,10 +66,13 @@ export default {
     },
     mounted(){
         this.scroll1 = new BScroll('.shopInfoContainer')
-        console.log(this.shopInfo.pics.length,111)
-        const ul = this.$refs.imgUl;
-        const liWidth = (120+6)*(this.shopInfo.pics.length)-6;
-        ul.style.width = liWidth + 'px'
+        // this.$nextTick(() =>{
+        //     console.log(this.shopInfo,111)
+        // })
+        
+        // const ul = this.$refs.imgUl;
+        // const liWidth = (120+6)*(this.shopInfo.pics.length)-6;
+        // ul.style.width = liWidth + 'px'
 
         this.scroll2 = new BScroll('.img-wrapper',{
             click:true,
@@ -142,20 +145,24 @@ export default {
                     margin-top 16px
                     width 100%
                     // width 400px
-                    white-space nowrap
+                    // white-space nowrap
                     overflow hidden
                     ul
                         // width 1008px
+                        display inline-flex
+                        white-space nowrap
                         li 
                             width 120px
                             height 90px
                             margin-right 6px
                             border 1px solid #ccc
-                            display inline-block
+                            // display inline-block
                             box-sizing border-box
                             img 
-                                width 100%
-                                height 100%
+                                // width 100%
+                                // height 100%
+                                width 120px
+                                height 90px
                 .detail
                     .detail_item
                         color #666
