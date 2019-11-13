@@ -50,7 +50,7 @@
             <div class="my-order">
                 <span class="iconfont iconvip"></span>
                 <div>
-                    <span>硅谷外卖会员卡</span>
+                    <span>外卖砖石会员卡</span>
                     <span class="iconfont iconchangyongtubiao-xianxingdaochu-zhuanqu-"></span>
                 </div>
             </div>

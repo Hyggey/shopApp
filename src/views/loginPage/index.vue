@@ -1,7 +1,7 @@
 <template>
     <div class="loginContainer">
         <span class="iconfont iconchangyongtubiao-xianxingdaochu-zhuanqu-1" @click="$router.back()"></span>
-        <h2>硅谷外卖</h2>
+        <h2>亚索外卖</h2>
         <div class="login-header">
             <span :class="{on:loginFlag}" @click="loginFlag = true">短信登录</span>
             <span :class="{on:!loginFlag}" @click="loginFlag = false">密码登录</span>
