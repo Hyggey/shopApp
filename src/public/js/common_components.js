@@ -6,6 +6,20 @@ Vue.use(VueLazyload, {
 	loading
   })
 
+  // 图片预加载
+  // 使用方法：其中el就是下面div标签
+//   <div v-previewImg=''></div>
+  Vue.directive('previewImg', {
+    bind: (el, binding) => {
+        let image = new Image();
+        let url = binding.value;
+        image.src = url;
+        image.onload = function (){
+            el.style.cssText = `background-image:url(${url})`;
+        }
+    } 
+})
+
 import 'mint-ui/lib/style.css'
 // 按需加载mint-ui
 import { 
