@@ -187,6 +187,7 @@ export default {
     .homeSwiper
     .swiper-pagination.swiper-pagination-bullets
         bottom 5px
+        padding-top 45px
         .swiper_item
             width 100%
             display flex

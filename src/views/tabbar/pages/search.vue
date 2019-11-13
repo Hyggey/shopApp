@@ -102,7 +102,7 @@ export default {
         justify-content space-between
         padding 10px
         box-sizing border-box
-        margin-top 10px
+        margin-top 55px
         input
             height 35px
             background  #f2f2f2

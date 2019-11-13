@@ -112,6 +112,7 @@ export default {
     .login
         background #02a774
         border-top 1px solid #ffffff
+        margin-top 45px
         .login_main
             padding 20px 10px
             display flex

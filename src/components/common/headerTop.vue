@@ -27,6 +27,11 @@ export default {
         height 45px
         background #02a774
         color #fff
+        position fixed
+        top 0
+        right 0
+        left 0
+        z-index 100
         .iconsousuo
             font-size 22px
         .text
