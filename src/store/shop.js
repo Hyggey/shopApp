@@ -5,7 +5,8 @@ const shop = {
         c:'',
         shopGoods:[],
         cartFoods:[],
-        ratings:[]
+        ratings:[],
+        searchShop:[]
     },
     getters:{
         totalCount(state){
@@ -67,7 +68,11 @@ const shop = {
         // 将商店的评价信息存储到vuex的state中去
         addRatings(state,msg2){
             state.ratings = msg2.data
-        }
+        },
+        // 将通过关键字搜索到的店铺存入到shop的vuex中去
+        resolveSearchShop(state,searchMsg2){
+            state.searchShop = searchMsg2.data
+        }   
     },
     actions:{
         // 第一种方法
@@ -133,6 +138,11 @@ const shop = {
         //         }
         //     })
         // }
+
+        // 搜索功能的的方法存入到shop的vuex中去
+        ActionsSearchShop({commit},searchMsg1){
+            commit('resolveSearchShop',searchMsg1)
+        }
     }
 }
 
