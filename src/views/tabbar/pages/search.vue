@@ -12,12 +12,14 @@
         <section v-if="!noSearchShops">
             <ul>
                 <!-- :to="'/shop?id='+item.id" -->
+                <!-- 如果输入为空需要清空，则用下面这个 -->
+                <!-- <router-link tag="li" :to="{path:'/shop',query:{id:item.id}}" v-for="(item,index) in searchShops" :key="index" v-show="(searchShops.length && keyWords!='')"> -->
                 <router-link tag="li" :to="{path:'/shop',query:{id:item.id}}" v-for="(item,index) in searchShops" :key="index" v-show="searchShops.length">
                     <img :src="imgBaseUrl+item.image_path" alt="">
                     <div class="msg_right">
                         <span>{{item.name}}</span>
                         <span>月售{{item.month_sales || item.recent_order_num}}单</span>
-                        <span>{{item.float_delivery_fee || item.float_minimum_order_amount}}元起送/距离{{item.distance}}公里</span>
+                        <span>{{item.float_delivery_fee || item.float_minimum_order_amount}}元起送/距离{{item.distance}}</span>
                     </div>
                 </router-link>
             </ul>
