@@ -25,9 +25,11 @@ import 'mint-ui/lib/style.css'
 import { 
     Button,
     MessageBox,
-    Toast
+	Toast,
+	Picker 
     } from 'mint-ui';
 Vue.component(Button.name, Button);
+Vue.component(Picker.name, Picker);
 // Vue.use(Button)
 
 // 全局注册 确认框

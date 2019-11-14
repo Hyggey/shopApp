@@ -49,6 +49,12 @@ export default new Router({
 			name: 'userInfo',
 			component: () => import('@/views/userInfo/userInfo.vue'),
 		},
+		// 个人信息页面
+		{
+			path: '/pickArea',
+			name: 'pickArea',
+			component: () => import('@/views/userInfo/pickArea.vue'),
+		},
 		// 商品详情页面
 		{
 			path: '/shop',
