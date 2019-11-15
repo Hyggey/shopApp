@@ -75,3 +75,6 @@ Vue.component('zz-shopCart', resolve => require(['@/components/common/shopCart']
 
 //checkbox组件
 Vue.component('zz-checkbox',resolve => require(['@/components/common/input'], resolve))
+
+//checkbox组件
+Vue.component('zz-pickerAddress',resolve => require(['@/components/common/pickerAddress'], resolve))
