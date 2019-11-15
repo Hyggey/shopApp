@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh_cn">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="token" value="{{csrf_token()}}">
+    <link rel="stylesheet" href="/home/css/global.css">
+    <link rel="stylesheet" href="/home/css/login/register.css">
+    <link rel="stylesheet" type="text/css" href="/home/css/login/agreement.css">
+    <link rel="stylesheet" type="text/css" href="/home/plugins/zeroModal/zeroModal.css">
+
+    <title>{{$web_config['name']}}-注册</title>
+</head>
+
+<body style="height: 100%;padding-bottom: 0;">
+<div id="content_wrap" style="width: 100%;height: 100%;display: flex;flex-direction: row;justify-content: center;">
+    <div id="content" style="height: 554px;">
+        <div id="logo">
+            <img src="/image/{{$web_config['logo']}}" alt="{{$web_config['name']}}" onclick="window.location.href='/'">
+        </div>
+        <div id="detail">
+            <form action="" id="form" name="form" autocomplete="off">
+                <div class="form-group">
+                    <div class="label">手机号码</div>
+                    <div class="input">
+                        <input type="text" name="mobile" placeholder="请输入手机号码" id="mobile">
+                    </div>
+                </div>
+{{--                <div class="form-group">--}}
+{{--                    <div class="label" style="letter-spacing: 1px;font-size: 14px;">--}}
+{{--                        图片验证码--}}
+{{--                    </div>--}}
+{{--                    <div class="input input_code">--}}
+{{--                        <input type="text" name="imagecode" placeholder="请输入图片验证码" id="imagecode" autocomplete="off">--}}
+{{--                        <!-- <span id="send">发送验证码</span> -->--}}
+{{--                        <img src="/frontend/user/showPic" alt="" style="position: relative;left: 2px;cursor: pointer;" onclick="refresh_imagecode();">--}}
+{{--                        <!-- <div id="#send"><span>发送验证码</span></div> -->--}}
+{{--                    </div>--}}
+{{--                </div>--}}
+
+                <div class="form-group">
+                    <div class="label" style="letter-spacing: 1px;font-size: 14px;">
+                        验 证 码
+                    </div>
+                    <div class="input input_code">
+                        <input type="text" name="code" placeholder="请输入短信验证码" id="code" autocomplete="off">
+                        <!-- <span id="send">发送验证码</span> -->
+                        <input type="button" name="" id="send" value="发送验证码">
+                        <!-- <div id="#send"><span>发送验证码</span></div> -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label" style="letter-spacing: 1px;font-size: 14px;">
+                        设置密码
+                    </div>
+                    <div class="input">
+                        <input type="password" name="mima" placeholder="请输入6-18位密码" id="mima">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="label" style="letter-spacing: 1px;font-size: 14px;">
+                        确认密码
+                    </div>
+                    <div class="input">
+                        <input type="password" name="mima2" placeholder="请输入6-18位密码" id="mima2">
+                    </div>
+                </div>
+
+                <div id="agree">
+                    <span class="checkbox" id="checkbox"><input type="checkbox" id="checkbox_input" name="checkbox"></span>
+                    <span class="agree"><span>同意《</span><span
+                                class="underline">天下名家书画定制网服务条款及隐私政策</span><span>》</span></span>
+                </div>
+
+                <button id="register" type="button" name="register">立即注册</button>
+
+            </form>
+
+            <div id="desc">
+                <span>已有账号，请<a href="/frontend/user/signin">登录</a></span>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="agreement_wrap"  style="display: none;">
+
+    <h3>天下名家书法定制网商家认证金协议</h3>
+    <p>天下名家书法定制网对该协议中的所有条款持有解释权，天下名家书法定制网有权以修改、更新等方式不时调整本协议和相关规则的内容，相关内容将公布于天下名家书法定制网的网站上或以其他方式通知商家。除非商家以书面形式通知天下名家书法定制网并表明不同意接受调整后的内容并停止使用天下名家书法定制网服务，否则调整后的内容将于公布之日或通知另行指定的日期开始生效。</p>
+    <p style="font-weight: bold;">天下名家书法定制网商家认证金</p>
+    <p>商家同意按本协议的要求向天下名家书法定制网交纳认证金（以下简称“认证金”），用于保证商家的合规经营、商品及服务质量。本协议条款的修改权归天下名家书法定制网运营公司                               所有，修改的内容由天下名家书法定制网在网站以公告形式公示，并毋须另行通知。您在使用天下名家书法定制网提供的各项服务之前，应仔细阅读本协议。如您不接受本协议或天下名家书法定制网对本协议的修改，请您拒绝使用或立即停止使用天下名家书法定制网所提供的全部服务；您一旦使用天下名家书法定制网服务，即视为您已了解并完全接受本协议各项内容，包括天下名家书法定制网对本协议所做的任何修改。</p>
+    <p style="color: #5F5F5F;font-weight: bold;">1.认证金额度</p>
+    <p>商家的具体应缴认证金数额根据天下名家书法定制网招商标准及商家的具体情况如商家资质、信誉状况、预估销售规模、单月销售额水平、合作次数、历史活动评分、商品类目及商品单价等由天下名家书法定制网招商专员在商家提交报名审核时具体确定应缴的数额，最低不少于 <span style="color: red;text-decoration: underline;">1000.00</span>元人民币，不设上限。天下名家书法定制网有权根据商家业务变化及实际履约能力及履约情况通知商家调整认证金金额，商家应在收到天下名家书法定制网通知后的十（10）个自然日内向天下名家书法定制网缴纳或补足认证金，否则，天下名家书法定制网有权中止或解除本协议并停止该商家在平台的一切活动。</p>
+    <p><span>1.1、</span>商家在天下名家书法定制网经营必须交纳认证金，认证金主要用于保证商家按照天下名家书法定制网的规则进行经营、提供优质合格的商品及服务。在商家有违规或违约行为时天下名家书法定制网有权根据平台相关规则扣除该商家的认证金。</p>
+    <p><span>1.2、</span>认证金应在商家入驻申请经天下名家书法定制网审核通过后一次性缴齐。</p>
+    <p><span>1.3、</span>天下名家书法定制网招商专员会根据上述标准计算各商家需要缴纳的认证金额度，在认证金额度不足的情况下会通知商家补足认证金。商家需在收到天下名家书法定制网通知后十（10）个自然日内补足认证金金额。如果没有及时补足认证金金额的，天下名家书法定制网将暂停店铺部分或全部功能。</p>
+    <p><span>1.4、</span>由于认证金不充抵服务费用或其他费用，除非因商家原因被扣除的，认证金始终存于商家的天下名家书法定制网账户中并处于冻结状态，如合作终止且约定期满后商家无任何违规、违约行为，则认证金无息退还商家。因此天下名家书法定制网对商家缴纳的认证金不提供收据或发票，敬请谅解。</p>
+    <p><span>1.5、</span>认证金可在活动结束30天且所有交易环节（包括：交易、费用结算、售后处理及买家维权处理）完成后由商家自行操作解冻至商家的天下名家书法定制网账户内。此期间，若天下名家书法定制网发现商家存在或可能存在违规或违约行为且在该30天内无法处理完毕的，天下名家书法定制网有权将认证金冻结时间延长30天或操作紧急扣除认证金，待商家违规/违约行为处理完毕后视具体情况解冻或退还。但商家有欠款未向天下名家书法定制网付清的，认证金仍无法解冻或退还。</p>
+    <p><span>1.6、</span>因资质、商品造假等原因被清退的店铺违规商家，天下名家书法定制网将不返还认证金，因违规或违约行为扣除的认证金亦不予返还。</p>
+    <p><span>1.7、</span>天下名家书法定制网将根据国家经济情况、市场状况及天下名家书法定制网经营情况适时适当调整认证金制度及认证金标准。认证金的调整会提前以公告形式在天下名家书法定制网网站公布。</p>
+    <p><span>2.认证金退还</span></p>
+    <p>商家与天下名家书法定制网终止合作后，经天下名家书法定制网初步查验，未发现商家在合作期限内有未处理完毕的经营纠纷、政府查处等事项，且商家不存在任何违约行为及欠费的，经自天下名家书法定制网初步查验完毕，该商家可在活动结束30天且所有交易环节（包括：交易、费用结算、售后处理及买家维权处理）完成后，天下名家书法定制网自动解冻认证金退还商家的天下名家书法定制网账户内。</p>
+    <p><span>3.认证金的管理和使用</span></p>
+    <p>天下名家书法定制网可在以下情况发生时，处置认证金：</p>
+    <p><span>3.1、</span>在天下名家书法定制网进行的交易中，如商家涉嫌违反法律、法规、政策、平台规则或违反其对买家的承诺时，商家同意天下名家书法定制网有完全的权利根据天下名家书法定制网的判断，直接使用认证金对买家进行适度赔付。</p>
+    <p><span>3.2、</span>商家违反平台规则，且根据平台规则，商家应当向天下名家书法定制网和/或消费者支付违约金、赔偿金，商家同意天下名家书法定制网有权直接划扣使用商家认证金。</p>
+    <p><span>3.3、</span>如商家未按照法律规定、本协议规定或平台规则向买家履行相关义务，则天下名家书法定制网有权依其独立判断，直接使用认证金向买家退款或支付违约金（或赔偿金）。</p>
+    <p><span>3.4、</span>如商家违反本协议和/或平台规则，给天下名家书法定制网造成任何损失（包括但不限于诉讼赔偿、诉讼费用、律师费用等），应向天下名家书法定制网支付违约金（罚金）的，则天下名家书法定制网有权直接从认证金中扣除相当于天下名家书法定制网损失的金额或违约金（罚金）或逾期未付款项，认证金不足以赔偿的，天下名家书法定制网可继续向商家追偿；在损失金额不明确之前，天下名家书法定制网有权无限期持有该认证金，直至损失金额明确后予以结算。</p>
+    <p><span>3.5、</span>因资质造假被清退、或有其他严重违规行为的不返还认证金。</p>
+    <p><span>3.6、</span>认证金并非天下名家书法定制网收取的费用，不提供任何收据或发票。</p>
+
+    <hr style="background-color:#dfdfdf;height: 1px;width:100%;border: none;">
+    <div class="agreement-bottom">
+        <input type="button" id="agreeButton" name="" value="我同意该协议">
+    </div>
+</div>
+
+
+
+
+
+
+<script type="text/javascript" src="/home/js/jquery-1.9.1.min.js"></script>
+<script type="text/javascript" src="/home/js/plugins/regx.js"></script>
+<script type="text/javascript" src="/home/js/plugins/validate.js"></script>
+<script type="text/javascript" src="/home/plugins/zeroModal/zeroModal.min.js"></script>
+<script type="text/javascript" src="/home/plugins/elt/js/elt.js"></script>
+<script type="text/javascript" src="/home/plugins/captcha/captcha.js"></script>
+<!--<script type="text/javascript" src="/home/js/plugins/jquery_validate//jquery.validate.js"></script>-->
+
+</body>
+<script type="text/javascript">
+
+    /*控制复选框打勾的*/
+    function addEvent(el, eventName, handler) {
+        if (!window.attachEvent) {
+            el.addEventListener(eventName, handler);
+        } else {
+            el.attachEvent('on' + eventName, function(){
+                handler.call();
+            });
+        }
+        // console.log(document.getElementById('checkbox'));
+    }
+
+    addEvent(document.getElementById('checkbox_input'), 'click', function(dom){
+        var dom = document.getElementById('checkbox');
+
+        var className = 'checkbox_checked';
+        if (dom.classList) {
+            var res = dom.classList.contains('checkbox_checked');
+            if (!res) {
+                dom.classList.add(className);
+            } else {
+                dom.classList.remove(className);
+            }
+        }
+        else {
+            var res = new RegExp('(^| )' + className + '( |$)', 'gi').test(dom.className);
+            if (!res) {
+                dom.className += ' ' + className;
+            } else {
+                dom.className = dom.className.replace(new RegExp('(^|\\b)' + className.split(' ').join('|') + '(\\b|$)', 'gi'), ' ');
+            }
+        }
+        //多一次检查
+        $('#checkbox_input').validate();
+    });
+
+    function refresh_imagecode(){
+        $('#imagecode').parent().find('img').attr('src', '/frontend/user/showPic?rand=' + Math.random());
+    }
+
+
+    $(function(){
+        $.ajaxSetup({
+            'headers': {
+                'X-CSRF-TOKEN': $('meta[name="token"]').attr('value')
+            }
+        });
+
+
+        $('#mobile').initValidate([{
+            name: 'required',
+            value: '',
+            tip: "手机号不能为空"
+        },{
+            name: 'regx',
+            value: regxRules.phone,
+            tip: "手机号填写不正确"
+        }]);
+
+        // $('#imagecode').initValidate([{
+        //     name: 'required',
+        //     value: '',
+        //     tip: "图片验证码不能为空"
+        // },{
+        //     name: 'regx',
+        //     value: regxRules.code,
+        //     tip: "图片验证码填写不正确"
+        // }]);
+
+        $('#code').initValidate([{
+            name: 'required',
+            value: '',
+            tip: "验证码不能为空"
+        },{
+            name: 'regx',
+            value: regxRules.code,
+            tip: "验证码填写不正确"
+        }]);
+
+        $('#mima').initValidate([{
+            name: 'required',
+            value: '',
+            tip: "密码不能为空"
+        },{
+            name: 'regx',
+            value: regxRules.password,
+            tip: "密码格式不正确"
+        }]);
+
+        $('#mima2').initValidate([{
+            name: 'required',
+            value: '',
+            tip: "密码不能为空"
+        },{
+            name: 'regx',
+            value: regxRules.password,
+            tip: "密码格式不正确"
+        },{
+            name: 'equal',
+            value: '#mima',
+            tip: "两次密码不一致"
+        }]);
+
+        $('#checkbox_input').initValidate([{
+            name: 'required',
+            value: '',
+            tip: "勾选用户注册协议"
+        }]);
+
+
+        $('#register').click(function() {
+            if ($('#register').validateAll()) {
+                $.post(
+                    '/frontend/user/register'
+                    , {data: $('#form').serialize()}
+                    , function(res) {
+                        if (res.code == 0) {
+                            elt.success(res.msg);
+                            setTimeout(function(){
+                                window.location.href = '/frontend/user/signin';
+                            },670);
+                        } else {
+                            elt.error(res.msg)
+                            if (res.count != 0){
+                                refresh_imagecode();
+                            }
+                        }
+                    }
+                );
+            }
+        })
+
+        /*点击按钮倒计时*/
+        var wait=0;
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.value="获取验证码";
+                wait = 60;
+            } else {
+                o.setAttribute("disabled", true);
+                o.value="重新发送(" + wait + ")";
+                wait--;
+                console.log(wait);
+                setTimeout(function() {
+                    time(o)
+                },1000)
+            }
+        }
+
+        sendClick = function(str){
+            if ($('#mobile').validate() && (wait <= 0 || wait == 60)) {
+                var that = $('#send')[0];
+                var mobile = $('#mobile').val();
+                // var imagecode = $('#imagecode').val();
+
+                /*请求后台发送短信*/
+                $.post(
+                    '/frontend/user/sendMsg'
+                    , {'mobile': mobile, imagecode: '1234', origin: str}
+                    , function(res) {
+                        if (res.code == 0) {
+                            wait = 60;
+                            time(that)
+                            elt.success(res.msg);
+                        } else {
+                            elt.error(res.msg)
+                            if (res.count != 0){
+                                refresh_imagecode();
+                            }
+                        }
+                    }
+                );
+            }
+
+
+        }
+
+        $('#send').click(function () {
+            /*发送短信并进行正则匹配*/
+            if ($('#mobile').validate()) {
+                $('#content_wrap').captcha('sendClick');
+            }
+            // var captcha = new Captcha('#content_wrap');
+            // captcha.init();
+            return;
+
+
+
+        })
+    })
+
+
+    /*控制遮罩层的*/
+    var modalid;
+    $('.underline').click(function(){
+        /*$('.agreement').css('display','block');*/
+        modalid = zeroModal.show({
+            'title': '注册协议',
+            'content': $('#agreement_wrap').html(),
+            width: '900px',
+            height: '600px'
+        });
+    })
+
+    $(document).on('click', '#agreeButton', function(){
+        zeroModal.close(modalid);
+        $('#checkbox').addClass('checkbox checkbox_checked');
+        $('#checkbox_input').prop('checked', 'checked');
+        $('#agree label[for="checkbox"]').css('display','none')
+    })
+
+</script>
+
+</html>
