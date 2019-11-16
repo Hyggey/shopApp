@@ -26,10 +26,12 @@ import {
     Button,
     MessageBox,
 	Toast,
-	Picker 
+	Picker,
+	Popup 
     } from 'mint-ui';
 Vue.component(Button.name, Button);
 Vue.component(Picker.name, Picker);
+Vue.component(Popup.name, Popup);
 // Vue.use(Button)
 
 // 全局注册 确认框

@@ -27,3 +27,26 @@ fieldset, img { border:0; }
 button, input, select, textarea { font-size:100%; }
 
 table { border-collapse:collapse; border-spacing:0; }
+
+.pickAreaContainer .mint-popup.mint-popup-bottom{
+    width: 100%;
+}
+.pickAreaContainer .picker-toolbar{
+    display: flex;
+    justify-content: space-between;
+    line-height: 40px;
+    background: #cccccc;
+}
+.pickAreaContainer .picker-toolbar span:nth-child(1){
+    padding: 0 10px;
+}
+.pickAreaContainer .picker-toolbar span:nth-child(1):active{
+    opacity: .6;
+}
+.pickAreaContainer .picker-toolbar span:nth-child(3){
+    padding: 0 10px;
+    color: #e43a3d;
+}
+.pickAreaContainer .picker-toolbar span:nth-child(3):active{
+    opacity: .6;
+}
