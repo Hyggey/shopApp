@@ -9,18 +9,13 @@
             position="bottom">
             <zz-pickerAddress @cancel="cancel" :id="pickId" @getAddress="change"></zz-pickerAddress>
         </mt-popup>
-
-        <el-cascader
-            v-model="value"
-            :options="options"
-            @change="handleChange">
-        </el-cascader>
+        <zz-pickerAddress-Ele :defaultAddress="ElementId" @changeArea="ElementChange"></zz-pickerAddress-Ele>
+        
 
     </div>
 </template>
 
 <script>
-import areaData_Ele from '../../components/common/areaData.js'
 export default {
     data(){
         return {
@@ -29,82 +24,19 @@ export default {
                 city_id: 62,
                 county_id: 73
             },
+            ElementId:{
+                province_id: 38,
+                city_id: 62,
+                county_id: 73
+            },
             popupVisible: false,
-            value:[],
-            options: [{
-                value: 'zhinan',
-                label: '指南',
-                children: [{
-                    value: 'shejiyuanze',
-                    label: '设计原则',
-                    children: [{
-                        value: 'yizhi',
-                        label: '一致'
-                        }, {
-                        value: 'fankui',
-                        label: '反馈'
-                        }]
-                }, {
-                    value: 'daohang',
-                    label: '导航',
-                    children: [{
-                        value: 'cexiangdaohang',
-                        label: '侧向导航'
-                        }, {
-                        value: 'dingbudaohang',
-                        label: '顶部导航'
-                        }]
-                }]
-                }, {
-                value: 'zujian',
-                label: '组件',
-                children: [{
-                    value: 'basic',
-                    label: 'Basic',
-                    children: [{
-                        value: 'layout',
-                        label: 'Layout 布局'
-                        }, {
-                        value: 'color',
-                        label: 'Color 色彩'
-                        }]
-                }, {
-                    value: 'form',
-                    label: 'Form',
-                    children: [{
-                        value: 'radio',
-                        label: 'Radio 单选框'
-                        }, {
-                        value: 'checkbox',
-                        label: 'Checkbox 多选框'
-                        }, {
-                        value: 'input',
-                        label: 'Input 输入框'
-                        }]
-                }]
-                }, {
-                value: 'ziyuan',
-                label: '资源',
-                children: [{
-                    value: 'axure',
-                    label: 'Axure Components'
-                }, {
-                    value: 'sketch',
-                    label: 'Sketch Templates'
-                }, {
-                    value: 'jiaohu',
-                    label: '组件交互文档'
-                }]
-            }],
         }
-    },
-    created(){
-        this.handleAreaData()
     },
     methods:{
         confirmAddress(){
             this.popupVisible = true
         },
+        // mint-ui
         change(e){
             console.log(e);
             this.popupVisible = false
@@ -112,29 +44,10 @@ export default {
         cancel(){
             this.popupVisible = false
         },
-        // element-ui之选择地址
-        handleChange(value) {
-            console.log(value);
-        },
-        // 处理数据
-        handleAreaData(){
-            console.log(areaData_Ele)
-            const a = JSON.stringify(areaData_Ele.helloyouluckypeople.province)
-            var b = a.replace(/name/g,"label").replace(/city|county/g,"children").replace(/id/g,"value");
-            var c= JSON.parse(b)
-            c.map(item => {
-                if(!Array.isArray(item.children)){
-                    item.children = [item.children]
-                }
-                item.children.map(item2 =>{
-                    if(!Array.isArray(item2.children)){
-                        item2.children = [item2.children]
-                    }
-                })
-            })
-            console.log(c)
-            // var c = eval(b)
-            this.options = c
+
+        // element-ui
+        ElementChange(e){
+            console.log(e)
         }
     }
 }
