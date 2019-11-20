@@ -49,6 +49,10 @@ Vue.prototype.$Toast = (text) => {
 	});
 };
 
+// import 'element-ui/lib/theme-chalk/index.css';
+// 按需引入Element-ui
+import { Cascader  } from 'element-ui';
+Vue.component(Cascader .name, Cascader );
 
 // 公共组件
 // 底部tabbar组件
