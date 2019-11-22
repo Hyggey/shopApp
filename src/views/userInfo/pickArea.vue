@@ -10,8 +10,6 @@
             <zz-pickerAddress @cancel="cancel" :id="pickId" @getAddress="change"></zz-pickerAddress>
         </mt-popup>
         <zz-pickerAddress-Ele :defaultAddress="ElementId" @changeArea="ElementChange"></zz-pickerAddress-Ele>
-        
-
     </div>
 </template>
 
