@@ -20,6 +20,11 @@ export default {
                     county_id:''
                 }
             }
+        },
+        type:{
+            default(){
+                return 1
+            }
         }
     },
     data(){
@@ -134,6 +139,9 @@ export default {
                 item.children.map(item2 =>{
                     if(!Array.isArray(item2.children)){
                         item2.children = [item2.children]
+                    }
+                    if(this.type == 2){
+                        delete item2.children
                     }
                 })
             })

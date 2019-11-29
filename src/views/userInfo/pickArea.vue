@@ -4,12 +4,15 @@
         <div class="btn">
             <button @click="confirmAddress">请选择地址</button>
         </div>
-        <mt-popup
-            v-model="popupVisible"
-            position="bottom">
+        <mt-popup  v-model="popupVisible" position="bottom">
             <zz-pickerAddress @cancel="cancel" :id="pickId" @getAddress="change"></zz-pickerAddress>
         </mt-popup>
-        <zz-pickerAddress-Ele :defaultAddress="ElementId" @changeArea="ElementChange"></zz-pickerAddress-Ele>
+        <div style="display:flex;justify-content:space-between">
+            <!-- 三级联动 -->
+            <zz-pickerAddress-Ele :defaultAddress="ElementId" @changeArea="ElementChange"></zz-pickerAddress-Ele>
+            <!-- 二级联动 -->
+            <zz-pickerAddress-Ele :type=2 :defaultAddress="ElementId2" @changeArea="ElementChange"></zz-pickerAddress-Ele>
+        </div>
     </div>
 </template>
 
@@ -25,7 +28,11 @@ export default {
             ElementId:{
                 province_id: 38,
                 city_id: 62,
-                county_id: 73
+                county_id: 73  // 二级联动需要删除
+            },
+            ElementId2:{
+                province_id: 38,
+                city_id: 62,
             },
             popupVisible: false,
         }
