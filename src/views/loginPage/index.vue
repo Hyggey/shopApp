@@ -106,7 +106,7 @@ export default {
                     if(res.data.code == 1){
                         this.tipFlag = true;
                         this.tipText = res.data.msg;
-                        this.computedTime = 0
+                        this.computedTime = 0;
                         clearInterval(cloak);
                     }
                 })
